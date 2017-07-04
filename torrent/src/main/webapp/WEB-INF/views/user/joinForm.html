@@ -37,10 +37,12 @@
 		<div class="container">
 
 			<div>
-				<h3>로그인 폼</h3>
-				<form action="<%=request.getContextPath() %>/user/login.do">
+				<h3>회원가입 폼</h3>
+				<form action="<%=request.getContextPath() %>/user/join.do">
 					id : <input type="text" name="id"> 
-					password : <input type="password" name="password">
+					password : <input type="password" name="password" id="password">
+					password : <input type="password" name="password2" id="password2">
+					email : <input type="text" name="email">
 					<button>login</button>
 				</form>
 			</div>

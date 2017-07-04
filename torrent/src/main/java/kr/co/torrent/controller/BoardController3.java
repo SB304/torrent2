@@ -6,8 +6,4 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class BoardController3 {
 
-	@RequestMapping("home")
-	public void home(){
-		
-	}
 }

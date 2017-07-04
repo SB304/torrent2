@@ -26,7 +26,6 @@ INDEX VERSION 1.130+C:\Users\Bit503-20\Desktop\torrent2\.metadata\.plugins\org.e
 1816274340.index
 2476353525.index
 2706037108.index
-637554984.index
 3927556144.index
 1354080914.index
 1992605567.index
