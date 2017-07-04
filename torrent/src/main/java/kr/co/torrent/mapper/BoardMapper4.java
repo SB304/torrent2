@@ -1,5 +1,5 @@
 package kr.co.torrent.mapper;
 
-public interface BoardMapper {
+public interface BoardMapper4 {
 
 }

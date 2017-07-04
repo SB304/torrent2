@@ -46,7 +46,7 @@
 
 			<div>
 				<h3>회원가입 폼</h3>
-				<form action="<%=request.getContextPath() %>/user/join.do">
+				<form id="join">
 					id : <input type="text" name="id"> password : <input
 						type="password" name="password" id="password"> password :
 					<input type="password" name="password2" id="password2">
@@ -62,6 +62,13 @@
 	<script>
 		$("div.topMenu").load("/torrent/include/topMenu.html");
 		$("div.footer").load("/torrent/include/footer.html");
+		$("#join").on("submit",function(){
+			$("#join").attr("action",getContextPath()+"/join").attr("method","post").submit();
+		})
+		function getContextPath() {
+			var hostIndex = location.href.indexOf( location.host ) + location.host.length;
+			return location.href.substring( hostIndex, location.href.indexOf('/', hostIndex + 1) );
+		};
 	</script>
 </body>
 
