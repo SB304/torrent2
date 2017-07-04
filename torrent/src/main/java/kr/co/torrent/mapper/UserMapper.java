@@ -1,5 +1,8 @@
 package kr.co.torrent.mapper;
 
-public interface UserMapper {
+import kr.co.torrent.vo.UserVO;
 
+public interface UserMapper {
+	
+	public void join(UserVO user); 
 }

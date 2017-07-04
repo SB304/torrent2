@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UserController {
 
 	@RequestMapping("/loginForm")
-	public void loginForm(){}
+	public void loginForm(){
+		System.out.println("loginForm");
+	}
 	
 	@RequestMapping("/login")
 	public String login(HttpSession session){
@@ -20,5 +22,13 @@ public class UserController {
 	}
 	
 	@RequestMapping("/joinForm")
-	public void joinForm(){}
+	public void joinForm(){
+		System.out.println("joinForm");
+	}
+	
+	@RequestMapping("/logout.do")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "redirect:loginForm.do";
+	}
 }

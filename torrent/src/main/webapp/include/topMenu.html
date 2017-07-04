@@ -18,6 +18,10 @@
 			<a href="#"><i class="icon-dribbble"></i></a>
 			<a href="#"><i class="icon-youtube"></i></a>
 		</p>
+		<div id="user">
+<!-- 			<button class="btn btn_default">로그인</button> -->
+			<button class="btn btn_default" id="joinBtn">회원가입</button>
+		</div>
 	</div>
 	<header id="fh5co-header" role="banner">
 		<div class="container">
@@ -29,4 +33,31 @@
 			</div>
 		</div>
 	</header>
+	<script>
+		$(document).ready(function(){
+			
+			loginConfirm();
+			
+		});
+		function loginConfirm(){
+			$.ajax({
+				url:getContextPath()+"/loginConfirm"
+			}).done(printUserButton);
+		}
+		function printUserButton(result){
+			$("#user").prepend(result);
+		}
+		function getContextPath() {
+			var hostIndex = location.href.indexOf(location.host)
+					+ location.host.length;
+			return location.href.substring(hostIndex, location.href.indexOf(
+					'/', hostIndex + 1));
+		};
+		$("#user").on("click","#loginBtn",function(){
+			self.location = getContextPath()+"/user/loginForm";
+		})
+		$("#joinBtn").on("click",function(){
+			self.location = getContextPath()+"/user/joinForm";
+		})
+	</script>
 	

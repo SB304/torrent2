@@ -18,7 +18,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		if (member != null) {
 			return true;
 		}
-		response.sendRedirect("loginForm.do");
+		response.sendRedirect("loginForm");
 		return false;
 	}
 
