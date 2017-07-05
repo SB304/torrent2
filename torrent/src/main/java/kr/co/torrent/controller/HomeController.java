@@ -13,14 +13,11 @@ public class HomeController {
 
 	@RequestMapping("/home")
 	public void home() {
-		System.out.println("home");
 	}
 
 	@RequestMapping("/loginConfirm")
 	@ResponseBody
 	public String loginConfirm(HttpSession session) {
-
-		System.out.println("loginConfirm");
 
 		String result = "";
 		UserVO user = (UserVO) session.getAttribute("user");

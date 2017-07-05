@@ -37,7 +37,7 @@
 
 			<div>
 				<h3>로그인 폼</h3>
-				<form action="<%=request.getContextPath() %>/user/login.do">
+				<form id="login">
 					id : <input type="text" name="id"> 
 					password : <input type="password" name="password">
 					<button>login</button>
@@ -59,6 +59,17 @@
 	<script>
 		$("div.topMenu").load("/torrent/include/topMenu.html");
 		$("div.footer").load("/torrent/include/footer.html");
+		$("#login").on("submit",function() {
+			$("#login").attr("action",getContextPath()+"/user/login")
+					  .attr("method", "post")
+					  .submit();
+		});
+		function getContextPath() {
+			var hostIndex = location.href.indexOf(location.host)
+					+ location.host.length;
+			return location.href.substring(hostIndex, location.href.indexOf(
+					'/', hostIndex + 1));
+		};
 	</script>
 </body>
 

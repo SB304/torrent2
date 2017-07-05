@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.torrent.mapper.UserMapper">
+	
+	<insert id="insertUser">
+		insert into tbl_user
+		(id,password,email)
+		values
+		(#{id},#{password},#{email})
+	</insert>
+	
+	<select id="selectUser" resultType="userVO">
+		select * 
+		from tbl_user
+		where id = #{id} and password = #{password}
+	</select>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
