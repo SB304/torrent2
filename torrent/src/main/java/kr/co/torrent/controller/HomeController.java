@@ -11,10 +11,6 @@ import kr.co.torrent.vo.UserVO;
 @Controller
 public class HomeController {
 
-	@RequestMapping("/home")
-	public void home() {
-	}
-
 	@RequestMapping("/loginConfirm")
 	@ResponseBody
 	public String loginConfirm(HttpSession session) {
