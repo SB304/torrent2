@@ -45,7 +45,7 @@
 	<mvc:default-servlet-handler />
 	
 	<mvc:view-resolvers>
-		<mvc:jsp prefix="/views/" suffix=".html" />
+		<mvc:jsp prefix="/views/" suffix="" />
 	</mvc:view-resolvers>
 
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
