@@ -35,21 +35,25 @@
 		<script src="/torrent/resources/js/main.js"></script>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
    		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+   		
+   		<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.js"></script>
+   		
 	</head>
 	<body>
 	<div class="topMenu"></div>
 	<!-- END .header -->
-	
-	
 	<div id="fh5co-main">
 		<div class="container">
-		
-		
-	<!--  @@@@@@@@@@@ 이부분에 자신의 페이지 코드 작성하시면 됩니다  @@@@@@@@@@-->
-		
-		
-		
-		
+		<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+			<h2>Movie Board</h2>
+			<div id="board-list-div">
+			
+			
+			
+			</div>
+		</div>
+		</div>
        </div>
 	</div>
 	<div class="footer"></div>
@@ -58,6 +62,57 @@
 	<script>
 		$("div.topMenu").load("/torrent/views/include/topMenu.html");
 		$("div.footer").load("/torrent/views/include/footer.html");
+	</script>
+<!-- 	내가짜는 스크립트 -->
+
+
+<!-- 핸들바 -->
+	<script id="board-list-temp" type="text/x-handlebars-template">
+	<table class="myTable">
+	    <thead> 
+	        <th>번호</th> 
+	        <th>제목</th> 
+	        <th>글쓴이</th> 
+	        <th>날짜</th> 
+	    </thead> 
+	    <tbody> 
+	        {{#boardVO}} 
+	        <tr> 				
+	            <td>{{bno}}</td> 
+	            <td><a href="mailto:{{bno}}">{{title}}</a></td> 
+	            <td>{{id}}</td> 
+	            <td>{{regDate}}</td> 
+	        </tr> 
+	        {{/boardVO}} 
+	    </tbody> 
+	</table>
+	</script>
+<!-- 핸들바로 목록 가져오기 스크립트  -->
+	<script>
+	
+	
+	
+	
+	
+		//핸들바 템플릿 가져오기
+		var source = $("#board-list-temp").html(); 
+		//핸들바 템플릿 컴파일
+		var template = Handlebars.compile(source); 
+		//핸들바 템플릿에 바인딩할 데이터
+		var data = {
+		    	boardVO: [
+		            { bno: "1", tilte: "미녀와오야수", id: "admin", regDate:"20170521" },
+		            { bno: "2", tilte: "미녀와오야수", id: "admin", regDate:"20170521" },
+		            { bno: "3", tilte: "미녀와오야수", id: "admin", regDate:"20170521" },
+		            { bno: "4", tilte: "미녀와오야수", id: "admin", regDate:"20170521" },
+		            { bno: "5", tilte: "미녀와오야수", id: "admin", regDate:"20170521" },
+		            { bno: "6", tilte: "미녀와오야수", id: "admin", regDate:"20170521" },
+		        ]
+		}; 
+		//핸들바 템플릿에 데이터를 바인딩해서 HTML 생성
+		var html = template(data);
+		//생성된 HTML을 DOM에 주입
+		$('#board-list-div').append(html);
 	</script>
 	</body>
 </html>
