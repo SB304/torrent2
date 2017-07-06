@@ -11,7 +11,7 @@ import kr.co.torrent.vo.UserVO;
 @Controller
 public class HomeController {
 
-	@RequestMapping("/loginConfirm")
+	@RequestMapping("/loginConfirm.json")
 	@ResponseBody
 	public String loginConfirm(HttpSession session) {
 

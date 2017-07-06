@@ -11,8 +11,6 @@
 <meta name="author" content="FREEHTML5.CO" />
 <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 <link rel="shortcut icon" href="favicon.ico">
-<link rel="stylesheet"
-	href="/torrent/resources/bootstrap/css/bootstrap.min.css">
 <!-- Google Webfonts -->
 <link
 	href='http://fonts.googleapis.com/css?family=Roboto:400,300,100,500'
@@ -38,10 +36,10 @@
 			<div>
 				<h3>로그인 폼</h3>
 				<form id="login">
-					id : <input type="text" name="id"> 
-					password : <input type="password" name="password">
-					<button>login</button>
+					id : <input type="text" name="id"> password : <input
+						type="password" name="password">
 				</form>
+				<button id="loginBtn">login</button>
 			</div>
 
 		</div>
@@ -57,19 +55,19 @@
 	<script src="/torrent/resources/js/salvattore.min.js"></script>
 	<script src="/torrent/resources/js/main.js"></script>
 	<script>
-		$("div.topMenu").load("/torrent/include/topMenu.html");
-		$("div.footer").load("/torrent/include/footer.html");
-		$("#login").on("submit",function() {
-			$("#login").attr("action",getContextPath()+"/user/login")
-					  .attr("method", "post")
-					  .submit();
+		$("div.topMenu").load("/torrent/views/include/topMenu.html");
+		$("div.footer").load("/torrent/views/include/footer.html");
+		$("#loginBtn").on("click",function() {
+			$.ajax({
+				url:getContextPath()+"/user/login.json",
+				type:"post",
+				data: $("#login").serialize()
+			}).done(function(result){
+				if(result == "success"){
+					self.location = "/";
+				}
+			});
 		});
-		function getContextPath() {
-			var hostIndex = location.href.indexOf(location.host)
-					+ location.host.length;
-			return location.href.substring(hostIndex, location.href.indexOf(
-					'/', hostIndex + 1));
-		};
 	</script>
 </body>
 

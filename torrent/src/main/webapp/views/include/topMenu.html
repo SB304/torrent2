@@ -19,8 +19,8 @@
 			<a href="#"><i class="icon-youtube"></i></a>
 		</p>
 		<div id="user">
-<!-- 			<button class="btn btn_default">濡쒓렇�씤</button> -->
-			<button class="btn btn_default" id="joinBtn">�쉶�썝媛��엯</button>
+<!-- 			<button class="btn btn_default">로그인</button> -->
+			<button class="btn btn_default" id="joinBtn">회원가입</button>
 		</div>
 	</div>
 	<header id="fh5co-header" role="banner">
@@ -39,7 +39,7 @@
 		});
 		function loginConfirm(){
 			$.ajax({
-				url:getContextPath()+"/loginConfirm"
+				url:getContextPath()+"/loginConfirm.json"
 			}).done(printUserButton);
 		}
 		function printUserButton(result){
@@ -52,10 +52,10 @@
 					'/', hostIndex + 1));
 		};
 		$("#user").on("click","#loginBtn",function(){
-			self.location = getContextPath()+"/user/loginForm";
+			self.location = getContextPath()+"/views/user/loginForm.html";
 		})
 		$("#joinBtn").on("click",function(){
-			self.location = getContextPath()+"/user/joinForm";
+			self.location = getContextPath()+"/views/user/joinForm.html";
 		})
 	</script>
 	

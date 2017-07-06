@@ -12,8 +12,6 @@
 <meta name="author" content="FREEHTML5.CO" />
 <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 <link rel="shortcut icon" href="favicon.ico">
-<link rel="stylesheet"
-	href="/torrent/resources/bootstrap/css/bootstrap.min.css">
 <!-- Google Webfonts -->
 <link
 	href='http://fonts.googleapis.com/css?family=Roboto:400,300,100,500'
@@ -35,6 +33,7 @@
 <script src="/torrent/resources/js/jquery.magnific-popup.min.js"></script>
 <script src="/torrent/resources/js/salvattore.min.js"></script>
 <script src="/torrent/resources/js/main.js"></script>
+<script src="/torrent/resources/js/torrent.js"></script>
 </head>
 <body>
 	<div class="topMenu"></div>
@@ -49,8 +48,8 @@
 					id : <input type="text" name="id"> <br>
 					password : <input type="password" name="password" id="password"> <br>
 					email : <input type="text" name="email"><br>
-					<button>회원가입</button>
 				</form>
+				<button type="button" id="joinBtn">회원가입</button>
 			</div>
 
 		</div>
@@ -58,19 +57,20 @@
 	<div class="footer"></div>
 
 	<script>
-		$("div.topMenu").load("/torrent/include/topMenu.html");
-		$("div.footer").load("/torrent/include/footer.html");
-		$("#join").on("submit",function() {
-					$("#join").attr("action",getContextPath()+"/user/join")
-							  .attr("method", "post")
-							  .submit();
+		$("div.topMenu").load("/torrent/views/include/topMenu.html");
+		$("div.footer").load("/torrent/views/include/footer.html");
+		$("#joinBtn").on("click",function() {
+			$.ajax({
+				url:getContextPath()+"/user/join.json",
+				type:"post",
+				data: $("#join").serialize()
+			}).done(function(result){
+				if(result == "success"){
+					alert("회원가입 성공");
+					self.location = "/torrent/views/user/loginForm.html";
+				}
+			});
 		});
-		function getContextPath() {
-			var hostIndex = location.href.indexOf(location.host)
-					+ location.host.length;
-			return location.href.substring(hostIndex, location.href.indexOf(
-					'/', hostIndex + 1));
-		};
 		
 		
 	</script>
