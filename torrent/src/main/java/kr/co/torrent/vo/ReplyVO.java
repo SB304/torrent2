@@ -2,7 +2,7 @@ package kr.co.torrent.vo;
 
 import java.util.Date;
 
-public class BoardCommentVO {
+public class ReplyVO {
 	private int commentNo;
 	private int no;
 	private String content;

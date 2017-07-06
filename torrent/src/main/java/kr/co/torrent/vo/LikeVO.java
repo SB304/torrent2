@@ -1,6 +1,6 @@
 package kr.co.torrent.vo;
 
-public class BoardRecommendVO {
+public class LikeVO {
 	private String userId;
 	private int boardNo;
 	public String getUserId() {

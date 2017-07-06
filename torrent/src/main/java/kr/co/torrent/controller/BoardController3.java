@@ -20,9 +20,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.torrent.service.BoardService3;
 import kr.co.torrent.service.BoardServiceImpl3;
-import kr.co.torrent.vo.BoardCommentVO;
-import kr.co.torrent.vo.BoardFileVO;
-import kr.co.torrent.vo.BoardRecommendVO;
+import kr.co.torrent.vo.ReplyVO;
+import kr.co.torrent.vo.FileVO;
+import kr.co.torrent.vo.LikeVO;
 import kr.co.torrent.vo.BoardVO;
 
 //한상미 컨트롤러
@@ -39,21 +39,21 @@ public class BoardController3 {
 	}
 	/////////////////////댓글처리 컨트롤러 : 모두 ajax이므로 @ResponseBody 이용 /////////////////////////
 	@RequestMapping("/commentDelete.do")
-	public List<BoardCommentVO> commentDeleteAjax(BoardCommentVO comment) throws Exception {
+	public List<ReplyVO> commentDeleteAjax(ReplyVO comment) throws Exception {
 		boardService3.deleteComment(comment.getCommentNo());
 		return boardService3.selectCommentByNo(comment.getNo());
 	}
 	@RequestMapping("/board/commentList.do")
-	public List<BoardCommentVO> CommentListControllerAjax(int no) throws Exception {
+	public List<ReplyVO> CommentListControllerAjax(int no) throws Exception {
 		return boardService3.selectCommentByNo(no);
 	}
 	@RequestMapping("/board/commentRegist.do")
-	public List<BoardCommentVO> CommentRegistControllerAjax(BoardCommentVO comment) throws Exception {
+	public List<ReplyVO> CommentRegistControllerAjax(ReplyVO comment) throws Exception {
 		boardService3.insertComment(comment);
 		return boardService3.selectCommentByNo(comment.getNo());
 	}
 	@RequestMapping("/board/commentUpdate.do")
-	public List<BoardCommentVO> CommentUpdateAjax(BoardCommentVO comment) throws Exception {
+	public List<ReplyVO> CommentUpdateAjax(ReplyVO comment) throws Exception {
 		boardService3.updateComment(comment);
 		return boardService3.selectCommentByNo(comment.getNo());
 
@@ -117,7 +117,7 @@ public class BoardController3 {
 		}
 
 		Iterator<String> iter = mRequest.getFileNames();
-		BoardFileVO boardFile = null;
+		FileVO boardFile = null;
 		while (iter.hasNext()) {
 			String formFileName = iter.next();
 			MultipartFile mFile = mRequest.getFile(formFileName);
@@ -137,7 +137,7 @@ public class BoardController3 {
 				System.out.println("저장할 파일명 : " + saveFileName);
 				mFile.transferTo(new File(uploadPath + "/" + saveFileName));
 				
-				boardFile = new BoardFileVO();
+				boardFile = new FileVO();
 				boardFile.setNo(boardVO.getBno());
 				boardFile.setOriName(oriFileName);
 				boardFile.setSystemName(saveFileName);
@@ -156,8 +156,8 @@ public class BoardController3 {
 
 	////////////추천수 처리///////////////////////
 	@RequestMapping("/board/checkRecommend.do")
-	public String checkRecommendAjax(BoardRecommendVO recommend) throws Exception {
-		BoardRecommendVO check = boardService3.checkRecommend(recommend);
+	public String checkRecommendAjax(LikeVO recommend) throws Exception {
+		LikeVO check = boardService3.checkRecommend(recommend);
 		String result = "추천";
 		if (check != null) {
 			System.out.println("이미추천했지롱");
@@ -170,13 +170,13 @@ public class BoardController3 {
 		return boardService3.countRecommend(boardNo);
 	}
 	@RequestMapping("/board/deleteRecommend.do")
-	public int deleteRecommendAjax(BoardRecommendVO recommend) throws Exception {
+	public int deleteRecommendAjax(LikeVO recommend) throws Exception {
 		boardService3.deleteRecommend(recommend);
 		return boardService3.countRecommend(recommend.getBoardNo());
 
 	}
 	@RequestMapping("/board/insertRecommend.do")
-	public int insertRecommendAjax(BoardRecommendVO recommend) throws Exception {
+	public int insertRecommendAjax(LikeVO recommend) throws Exception {
 		boardService3.insertRecommend(recommend);
 		return boardService3.countRecommend(recommend.getBoardNo()); 
 	}

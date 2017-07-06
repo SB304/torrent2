@@ -2,7 +2,7 @@ package kr.co.torrent.vo;
 
 import org.springframework.stereotype.Component;
 
-public class BoardFileVO {
+public class FileVO {
 	private int fileNo;
 	private int no;
 	private String oriName;
