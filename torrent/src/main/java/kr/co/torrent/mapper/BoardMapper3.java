@@ -11,21 +11,21 @@ public interface BoardMapper3 {
 	public void insertBoard(BoardVO board) throws Exception;
 	public int updateBoard(BoardVO board) throws Exception;
 	public int deleteBoard(int no) throws Exception;
-	public List<BoardVO> selectBoard() throws Exception;
+	public List<BoardVO> selectBoard(int genre) throws Exception;
 	public BoardVO selectBoardByNo(int no) throws Exception;
 
 	// 파일 작업
-	public void insertBoardFile(FileVO fileVO) throws Exception;
-	public FileVO selectBoardFileByNo(int fileNo) throws Exception;
+	public void insertFile(FileVO fileVO) throws Exception;
+	public FileVO selectFileByNo(int fileNo) throws Exception;
 	
 	// 댓글 작업
 	public List<ReplyVO> selectBoardCommentByNo(int no) throws Exception;
-	public void insertBoardComment(ReplyVO comment) throws Exception;
-	public void deleteBoardComment(int commentNo) throws Exception;
-	public void updateBoardComment(ReplyVO comment) throws Exception;
+	public void insertReply(ReplyVO comment) throws Exception;
+	public void deleteReply(int commentNo) throws Exception;
+	public void updateReply(ReplyVO comment) throws Exception;
 	//추천수 작업
-	public int countBoardRecommend(int boardNo) throws Exception;
-	public LikeVO checkRecommend(LikeVO recommend) throws Exception;
-	public void insertBoardRecommend(LikeVO recommend);
-	public void deleteBoardRecommend(LikeVO recommend);
+	public int countLike(int boardNo) throws Exception;
+	public LikeVO checkLike(LikeVO recommend) throws Exception;
+	public void insertLike(LikeVO recommend);
+	public void deleteLike(LikeVO recommend);
 }

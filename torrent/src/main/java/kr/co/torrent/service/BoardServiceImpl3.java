@@ -14,11 +14,12 @@ import kr.co.torrent.vo.FileVO;
 import kr.co.torrent.vo.LikeVO;
 import kr.co.torrent.vo.BoardVO;
 
-@Service
+@Service("BoardService3")
 public class BoardServiceImpl3 implements BoardService3 {
 
 	@Autowired
 	private BoardMapper3 mapper;
+	
 	////////// 보드///////////////////
 	public BoardServiceImpl3() {}
 
@@ -34,13 +35,13 @@ public class BoardServiceImpl3 implements BoardService3 {
 	}
 
 	@Override
-	public List<BoardVO> select() throws Exception {
-		return mapper.selectBoard();
+	public List<BoardVO> select(int genre) throws Exception {
+		return mapper.selectBoard(genre);
 	}
 	@Override
 	public Map<String, Object> detail(int no) throws Exception {
 		BoardVO board = mapper.selectBoardByNo(no);
-		FileVO file = mapper.selectBoardFileByNo(no);
+		FileVO file = mapper.selectFileByNo(no);
 		Map<String, Object> map = new HashMap<>();
 		map.put("file", file);
 		map.put("board", board);
@@ -51,7 +52,7 @@ public class BoardServiceImpl3 implements BoardService3 {
 	@Transactional(rollbackFor=Exception.class)
 	public void insert(BoardVO board, FileVO file) throws Exception {
 		if (file != null) {
-			mapper.insertBoardFile(file);
+			mapper.insertFile(file);
 		}
 		mapper.insertBoard(board);
 	}
@@ -66,19 +67,19 @@ public class BoardServiceImpl3 implements BoardService3 {
 	@Override
 	@Transactional(rollbackFor=Exception.class)
 	public void deleteComment(int no) throws Exception {
-		mapper.deleteBoardComment(no);
+		mapper.deleteReply(no);
 	}
 
 	@Override
 	@Transactional(rollbackFor=Exception.class)
 	public void updateComment(ReplyVO comment) throws Exception {
-		mapper.updateBoardComment(comment);
+		mapper.updateReply(comment);
 	}
 
 	@Override
 	@Transactional(rollbackFor=Exception.class)
 	public void insertComment(ReplyVO comment) throws Exception {
-		mapper.insertBoardComment(comment);
+		mapper.insertReply(comment);
 //		session.commit();
 	}
 
@@ -90,23 +91,23 @@ public class BoardServiceImpl3 implements BoardService3 {
 	//////////// 추천수/////////////////////////////////
 	@Override
 	public LikeVO checkRecommend(LikeVO recommend) throws Exception {
-		return mapper.checkRecommend(recommend);
+		return mapper.checkLike(recommend);
 	}
 
 	@Override
 	public int countRecommend(int no) throws Exception {
-		return mapper.countBoardRecommend(no);
+		return mapper.countLike(no);
 	}
 
 	@Override
 	@Transactional(rollbackFor=Exception.class)
 	public void deleteRecommend(LikeVO recommend) throws Exception {
-		mapper.deleteBoardRecommend(recommend);
+		mapper.deleteLike(recommend);
 	}
 
 	@Override
 	@Transactional(rollbackFor=Exception.class)
 		public void insertRecommend(LikeVO recommend) throws Exception {
-			mapper.insertBoardRecommend(recommend);
+			mapper.insertLike(recommend);
 		}
 }

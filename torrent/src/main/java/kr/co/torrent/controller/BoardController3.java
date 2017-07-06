@@ -28,7 +28,7 @@ import kr.co.torrent.vo.BoardVO;
 //한상미 컨트롤러
 
 @RestController 
-@RequestMapping("/board") 
+@RequestMapping("/views/board") 
 public class BoardController3 {
 	@Autowired
 	private BoardService3 boardService3;
@@ -38,69 +38,60 @@ public class BoardController3 {
 		boardService3 = new BoardServiceImpl3(); //지금은 직접주입하지만 스프링에선 오토와이어드...
 	}
 	/////////////////////댓글처리 컨트롤러 : 모두 ajax이므로 @ResponseBody 이용 /////////////////////////
-	@RequestMapping("/commentDelete.do")
+	@RequestMapping("/commentDelete.json")
 	public List<ReplyVO> commentDeleteAjax(ReplyVO comment) throws Exception {
-		boardService3.deleteComment(comment.getCommentNo());
-		return boardService3.selectCommentByNo(comment.getNo());
+		boardService3.deleteComment(comment.getRno());
+		return boardService3.selectCommentByNo(comment.getBno());
 	}
-	@RequestMapping("/board/commentList.do")
+	@RequestMapping("/commentList.json")
 	public List<ReplyVO> CommentListControllerAjax(int no) throws Exception {
 		return boardService3.selectCommentByNo(no);
 	}
-	@RequestMapping("/board/commentRegist.do")
+	@RequestMapping("/commentRegist.json")
 	public List<ReplyVO> CommentRegistControllerAjax(ReplyVO comment) throws Exception {
 		boardService3.insertComment(comment);
-		return boardService3.selectCommentByNo(comment.getNo());
+		return boardService3.selectCommentByNo(comment.getBno());
 	}
-	@RequestMapping("/board/commentUpdate.do")
+	@RequestMapping("/commentUpdate.json")
 	public List<ReplyVO> CommentUpdateAjax(ReplyVO comment) throws Exception {
 		boardService3.updateComment(comment);
-		return boardService3.selectCommentByNo(comment.getNo());
+		return boardService3.selectCommentByNo(comment.getBno());
 
 	}
 
 	//////////////////////////보드관련 컨트롤러 처리 ////////////////////////////////////
-	@RequestMapping("/board/delete.do")
-	public void delete(int no) throws Exception {
-		boardService3.delete(no);
+	@RequestMapping("/delete.json")
+	public void delete(int bno) throws Exception {
+		boardService3.delete(bno);
 	}
 
-	@RequestMapping("/board/detail.do")
-	public ModelAndView detail(int no) throws Exception {
-		Map<String,Object> result = boardService3.detail(no);
-		ModelAndView mav = new ModelAndView("/board/detail");
-		mav.addObject("board", result.get("board"));
-		mav.addObject("file", result.get("file"));
-
-		return mav;
+	@RequestMapping("/detail.json")
+	public Map<String,Object> detail(int bno) throws Exception {
+		Map<String,Object> result = boardService3.detail(bno);
+		return result;
 	}
 
-	@RequestMapping("/board/list.do")
-	public ModelAndView list(
-			@RequestParam(value="pageNo", defaultValue="1")int pageNo) 
+	@RequestMapping("/list.json")
+	public List<BoardVO> list(
+			@RequestParam(value="pageNo", defaultValue="1")int pageNo,int genre) 
 					throws Exception {
-		System.out.println("pageNo = "+pageNo);
-		List<BoardVO> list = boardService3.select();
-		ModelAndView mav = new ModelAndView("/board/list");
-		mav.addObject("list", list);
-		return mav;
+		System.out.println("pageNo = " + pageNo);
+		List<BoardVO> list = boardService3.select(genre);
+		return list;
 	}
 
-	@RequestMapping("/board/update.do")
+	@RequestMapping("/update.json")
 	public void update(BoardVO board) throws Exception {
 		boardService3.update(board);
 	}
 
-	@RequestMapping("/board/updateForm.do")
-	public ModelAndView updateForm(int no) throws Exception {
-		BoardVO board = boardService3.updateForm(no);
-		
-		ModelAndView mav = new ModelAndView("/board/updateForm");
-		mav.addObject("board", board);
-		return mav;
+	@RequestMapping("/updateForm.json")
+	public BoardVO updateForm(int bno) throws Exception {
+		BoardVO board = boardService3.updateForm(bno);
+		return board;
 	}
 
-	@RequestMapping(value="/board/write.do", method=RequestMethod.POST)
+	@RequestMapping(value="/write.json", method=RequestMethod.POST)
 	public void write(MultipartHttpServletRequest mRequest, BoardVO boardVO) throws Exception {
 		
 /*		//현재 프로젝트와 관련된 ServletContext 객체를 자동주입함 : 기존에는 HttpRequest객체에서 꺼냈음..
@@ -138,11 +129,11 @@ public class BoardController3 {
 				mFile.transferTo(new File(uploadPath + "/" + saveFileName));
 				
 				boardFile = new FileVO();
-				boardFile.setNo(boardVO.getBno());
+				boardFile.setBno(boardVO.getBno());
 				boardFile.setOriName(oriFileName);
-				boardFile.setSystemName(saveFileName);
-				boardFile.setFilePath(datePath);
-				boardFile.setFileSize(fileSize);
+				boardFile.setSysName(saveFileName);
+				boardFile.setPath(datePath);
+				boardFile.setSize(fileSize);
 			}
 		} 
 		boardService3.insert(boardVO, boardFile);
@@ -150,12 +141,12 @@ public class BoardController3 {
 		
 	}
 
-	@RequestMapping("/board/writeForm.do")
+	@RequestMapping("/writeForm.json")
 	public void writeForm() throws Exception {
 	}
 
 	////////////추천수 처리///////////////////////
-	@RequestMapping("/board/checkRecommend.do")
+	@RequestMapping("/checkLike.json")
 	public String checkRecommendAjax(LikeVO recommend) throws Exception {
 		LikeVO check = boardService3.checkRecommend(recommend);
 		String result = "추천";
@@ -165,21 +156,19 @@ public class BoardController3 {
 		}
 		return result;
 	}
-	@RequestMapping("/board/recommendCount.do")
+	@RequestMapping("/LikeCount.json")
 	public int recommendCountAjax(int boardNo) throws Exception {
 		return boardService3.countRecommend(boardNo);
 	}
-	@RequestMapping("/board/deleteRecommend.do")
+	@RequestMapping("/deleteLike.json")
 	public int deleteRecommendAjax(LikeVO recommend) throws Exception {
 		boardService3.deleteRecommend(recommend);
-		return boardService3.countRecommend(recommend.getBoardNo());
+		return boardService3.countRecommend(recommend.getBno());
 
 	}
-	@RequestMapping("/board/insertRecommend.do")
+	@RequestMapping("/insertLike.json")
 	public int insertRecommendAjax(LikeVO recommend) throws Exception {
 		boardService3.insertRecommend(recommend);
-		return boardService3.countRecommend(recommend.getBoardNo()); 
+		return boardService3.countRecommend(recommend.getBno()); 
 	}
-
-
 }

@@ -14,7 +14,7 @@ public interface BoardService3 {
 	public void delete(int no) throws Exception;
 	public void update(BoardVO board) throws Exception;
 	public void insert(BoardVO board, FileVO file) throws Exception;
-	public List<BoardVO> select() throws Exception; 
+	public List<BoardVO> select(int genre) throws Exception; 
 	public Map<String, Object> detail(int no) throws Exception;
 	/////////댓글 서비스//////////////////////
 	public void deleteComment(int no) throws Exception;

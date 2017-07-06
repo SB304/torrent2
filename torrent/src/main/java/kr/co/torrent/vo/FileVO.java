@@ -3,23 +3,23 @@ package kr.co.torrent.vo;
 import org.springframework.stereotype.Component;
 
 public class FileVO {
-	private int fileNo;
-	private int no;
+	private int fno;
+	private int bno;
 	private String oriName;
-	private String systemName;
-	private String filePath;
-	private long fileSize;
-	public int getFileNo() {
-		return fileNo;
+	private String sysName;
+	private String path;
+	private long size;
+	public int getFno() {
+		return fno;
 	}
-	public void setFileNo(int fileNo) {
-		this.fileNo = fileNo;
+	public void setFno(int fno) {
+		this.fno = fno;
 	}
-	public int getNo() {
-		return no;
+	public int getBno() {
+		return bno;
 	}
-	public void setNo(int no) {
-		this.no = no;
+	public void setBno(int bno) {
+		this.bno = bno;
 	}
 	public String getOriName() {
 		return oriName;
@@ -27,30 +27,25 @@ public class FileVO {
 	public void setOriName(String oriName) {
 		this.oriName = oriName;
 	}
-	public String getSystemName() {
-		return systemName;
+	public String getSysName() {
+		return sysName;
 	}
-	public void setSystemName(String systemName) {
-		this.systemName = systemName;
+	public void setSysName(String sysName) {
+		this.sysName = sysName;
 	}
-	public String getFilePath() {
-		return filePath;
+	public String getPath() {
+		return path;
 	}
-	public void setFilePath(String filePath) {
-		this.filePath = filePath;
+	public void setPath(String path) {
+		this.path = path;
 	}
-	public long getFileSize() {
-		return fileSize;
+	public long getSize() {
+		return size;
 	}
-	public void setFileSize(long fileSize) {
-		this.fileSize = fileSize;
+	public void setSize(long size) {
+		this.size = size;
 	}
+	
+
+	
 }
-
-
-
-
-
-
-
-

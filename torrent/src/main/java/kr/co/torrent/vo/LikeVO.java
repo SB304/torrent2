@@ -1,19 +1,20 @@
 package kr.co.torrent.vo;
 
 public class LikeVO {
-	private String userId;
-	private int boardNo;
-	public String getUserId() {
-		return userId;
+	private String id;
+	private int bno;
+	public String getId() {
+		return id;
 	}
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setId(String id) {
+		this.id = id;
 	}
-	public int getBoardNo() {
-		return boardNo;
+	public int getBno() {
+		return bno;
 	}
-	public void setBoardNo(int boardNo) {
-		this.boardNo = boardNo;
+	public void setBno(int bno) {
+		this.bno = bno;
 	}
+
 
 }

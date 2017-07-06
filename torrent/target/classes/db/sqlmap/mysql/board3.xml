@@ -3,18 +3,18 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.torrent.mapper.BoardMapper3">
 
-	<insert id="insertBoard" parameterType="Board">
-		<selectKey keyProperty="no" resultType="int" order="BEFORE">
-			select s_board_no.nextval from dual
-		</selectKey>
+	<insert id="insertBoard" parameterType="boardVO">
 	    insert into tbl_board(           
-		    bno, id, genre, title, content   
+		    id, genre, title, content   
 		) values (                       
-		    #{bno}, #{id}, #{genre}, #{title}, #{content} 
+		    #{id}, #{genre}, #{title}, #{content} 
 		)                               
+		<selectKey keyProperty="bno" resultType="int">
+      	  SELECT LAST_INSERT_ID()
+    	</selectKey>
 	</insert>
 	
-	<update id="updateBoard" parameterType="Board">
+	<update id="updateBoard" parameterType="boardVO">
 		update tbl_board 
 		   set title = #{title},
 		       content = #{content} 
@@ -27,14 +27,15 @@
 	     where bno = #{bno} 
 	</delete>
 	
-	<select id="selectBoard" resultMap="boardMap">
+	<select id="selectBoard" parameterType="int" resultMap="boardVO">
 	    select *         
-		  from tbl_board  
-		 order by no desc 
+		  from tbl_board 
+		  where genre = #{genre}
+		 order by no desc
 	</select>
 	
 	<select id="selectBoardByNo" parameterType="int" 
-	                             resultMap="boardMap">
+	                             resultType="boardVO">
 	    select *         
 		  from tbl_board  
 		 where bno = #{bno}
@@ -44,7 +45,7 @@
 	<!-- ################################# -->
     <!-- 파일 부분 시작 -->	
     <!-- ################################# -->
-    <insert id="insertBoardFile" parameterType="BoardFile">
+    <insert id="insertFile" parameterType="fileVO">
 		insert into tbl_file ( 
 			bno,         
 			oriName, 
@@ -52,7 +53,6 @@
 			path, 
 			size
 		) values (
-			s_board_file_no.nextVal, 
 			#{bno}, 
 			#{oriName}, 
 			#{sysName},
@@ -62,7 +62,7 @@
 	</insert>
 
 	
-	<select id="selectBoardFileByNo" parameterType="int" resultType="File">
+	<select id="selectFileByNo" parameterType="int" resultType="fileVO">
 	    select bno,
 	           oriName,
 	           systemName,
@@ -74,15 +74,15 @@
 	
 	<!-- 댓글 처리 DAO 시작 -->
 	<!-- ################################# -->	
-	<insert id="insertBoardComment" parameterType="boardComment">
+	<insert id="insertReply" parameterType="replyVO">
 		insert into tbl_reply(
-			rno, bno, id, content
+			bno, id, content
 		) values (
-			s_reply_no.nextVal, #{bno}, #{id}, #{content}
+			#{bno}, #{id}, #{content}
 		)
 	</insert>
 	
-	<select id="selectBoardCommentByNo" parameterType="int" resultType="boardComment">
+	<select id="selectReplyByNo" parameterType="int" resultType="replyVO">
 	    select rno,
 	           bno,
 	           id,
@@ -92,13 +92,13 @@
 	     where bno = #{bno}      
 	</select>
 	
-	<delete id="deleteBoardComment" parameterType="int">
+	<delete id="deleteReply" parameterType="int">
 	    delete 
 	      from tbl_reply
 	     where rno = #{rno}
 	</delete>
 	
-	<update id="updateBoardComment" parameterType="BoardComment">
+	<update id="updateReply" parameterType="replyVO">
 	    update tbl_reply
 	       set content = #{content}
 	     where rno = #{rno}
@@ -106,31 +106,32 @@
 	
 	
 	<!-- 추천수  -->
-	<select id="countBoardRecommend" parameterType="int" resultType="int">
+	<select id="countLike" parameterType="int" resultType="int">
 	select count(*)
 	from tbl_like
 	where bno=#{bno}
 	</select>
 	
-	<select id="checkRecommend" parameterType="BoardRecommend" resultType ="BoardRecommend">
+	<select id="checkLike" parameterType="likeVO" resultType ="likeVO">
 	select *
 	from tbl_like
 	where bno=#{bno} and id=#{id}
 	</select>
 
-	<insert id="insertBoardRecommend">
+	<insert id="insertLike">
 		insert into tbl_like(
 			bno, id
 		) values (
 			#{bno},#{id}
 		)
 	</insert>
-	<delete id="deleteBoardRecommend">
+	<delete id="deleteLike">
 	    delete 
 	      from tbl_like
 	     where bno = #{bno} and id=#{id}
 	</delete>
 	           
+
 		
 </mapper>
 

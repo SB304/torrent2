@@ -35,7 +35,7 @@
 		<script src="/torrent/resources/js/main.js"></script>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
    		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-   		
+   		<!-- 핸들바 -->
    		<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.js"></script>
    		
 	</head>
@@ -47,8 +47,9 @@
 		<div class="row">
 		<div class="col-md-10 col-md-offset-1">
 			<h2>Movie Board</h2>
+			리스트출력
 			<div id="board-list-div">
-			
+			??
 			
 			
 			</div>
@@ -66,7 +67,7 @@
 <!-- 	내가짜는 스크립트 -->
 
 
-<!-- 핸들바 -->
+<!-- 핸들바 템플릿-->
 	<script id="board-list-temp" type="text/x-handlebars-template">
 	<table class="myTable">
 	    <thead> 
@@ -89,30 +90,31 @@
 	</script>
 <!-- 핸들바로 목록 가져오기 스크립트  -->
 	<script>
-	
-	
-	
-	
-	
-		//핸들바 템플릿 가져오기
-		var source = $("#board-list-temp").html(); 
-		//핸들바 템플릿 컴파일
-		var template = Handlebars.compile(source); 
-		//핸들바 템플릿에 바인딩할 데이터
-		var data = {
-		    	boardVO: [
-		            { bno: "1", tilte: "미녀와오야수", id: "admin", regDate:"20170521" },
-		            { bno: "2", tilte: "미녀와오야수", id: "admin", regDate:"20170521" },
-		            { bno: "3", tilte: "미녀와오야수", id: "admin", regDate:"20170521" },
-		            { bno: "4", tilte: "미녀와오야수", id: "admin", regDate:"20170521" },
-		            { bno: "5", tilte: "미녀와오야수", id: "admin", regDate:"20170521" },
-		            { bno: "6", tilte: "미녀와오야수", id: "admin", regDate:"20170521" },
-		        ]
-		}; 
-		//핸들바 템플릿에 데이터를 바인딩해서 HTML 생성
-		var html = template(data);
-		//생성된 HTML을 DOM에 주입
-		$('#board-list-div').append(html);
+	function makeBoardList(result){
+		console.log("리스트를 만들자..")
+		if(result.length==0){
+			$('#board-list-div').append("게시물이 존재하지 않습니다.");
+		}else{
+			//핸들바 템플릿 가져오기
+			var source = $("#board-list-temp").html(); 
+			//핸들바 템플릿 컴파일
+			var template = Handlebars.compile(source); 
+			//핸들바 템플릿에 바인딩할 데이터
+			//핸들바 템플릿에 데이터를 바인딩해서 HTML 생성
+			var html = template(result);
+			//생성된 HTML을 DOM에 주입
+			$('#board-list-div').append(html);
+			}
+	}
+	$(document).ready(function(){
+		console.log("문서로딩완료했을때 리스트ajax호출..")
+			$.ajax({
+				url : "list.json",//url이 맨 마지막만 바뀌면 그냥써두됨
+				data : {genre:3},
+				dataType:"json"
+			}).done(makeBoardList);//권장하는 형태
+			console.log("리스트 가져왔다?")
+	});
 	</script>
 	</body>
 </html>
