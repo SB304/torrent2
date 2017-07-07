@@ -214,7 +214,7 @@
 		$("div.topMenu").load("/torrent/views/include/topMenu.html");
 		$("div.footer").load("/torrent/views/include/footer.html");
 		var naver_id_login = new naver_id_login("tcOqG9J4JagRMK2wAd9U",
-				"http://localhost:8080/torrent/views/home.html");
+				"http://192.168.0.36:8000/torrent/views/home.html");
 		naver_id_login.get_naver_userprofile("naverSignInCallback()");
 		function naverSignInCallback() {
 			$.ajax({
