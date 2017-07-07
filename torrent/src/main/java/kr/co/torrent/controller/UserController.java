@@ -20,7 +20,7 @@ public class UserController {
 	
 	@RequestMapping("/login.json")
 	public String login(LoginDTO login,HttpSession session){
-		UserVO user = service.login(login);
+		String user = service.login(login);
 		String result = "fail";
 		if(user != null) {
 			result = "success";
