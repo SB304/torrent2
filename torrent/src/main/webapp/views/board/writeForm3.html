@@ -1,9 +1,6 @@
+<!-- 기본틀 ! 복사해서 쓰시면됩니다 -->
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -35,29 +32,48 @@
 		<script src="/torrent/resources/js/main.js"></script>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
    		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-   		<!-- 핸들바 -->
-   		<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.js"></script>
+   		
+	  <!-- Font Awesome -->
+	  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+	  <!-- Ionicons -->
+	  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+   	  <!-- bootstrap wysihtml5 - text editor -->
+ 	 <link rel="stylesheet" href="/torrent/resources/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
    		
 	</head>
 	<body>
 	<div class="topMenu"></div>
 	<!-- END .header -->
+	
+	
 	<div id="fh5co-main">
 		<div class="container">
 		<div class="row">
 		<div class="col-md-10 col-md-offset-1">
 			<h2>Movie Board</h2>
-
-				<div>
-					검색기능...
+			<div class="fh5co-spacer fh5co-spacer-sm"></div>
+					<form action="#">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group">
+									<input type="text" class="form-control" name="title" placeholder="제목을 입력하세요">	
+								</div>
+							</div>
+							<div class="col-md-12">
+							<div id="myEditor">
+				              <form>
+				                <textarea class="textarea form-control" name="content" placeholder="게시글을 작성해 주세요" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+				              </form>
+				            </div>
+								<div class="form-group">
+									<button class="btn btn-primary">등록</button><button class="btn">취소</button>
+								</div>
+							</div>
+						</div>
+					</form>
+					
 				</div>
-				<div id="board-list-div">
-				</div >
-				<div>
-				페이징... 	
-				<button id="writeBtn" class ="btn btn-primary" type="button">글쓰기</button> 
-				</div>
-
+			
 		</div>
 		</div>
        </div>
@@ -69,67 +85,11 @@
 		$("div.topMenu").load("/torrent/views/include/topMenu.html");
 		$("div.footer").load("/torrent/views/include/footer.html");
 	</script>
-<!--     내가짜는 스크립트                   -->
-<script>
-
-$("#writeBtn").on("click",function(){
-	location.href="writeForm3.html";
-});
-</script>
-
-
-
-
-<!-- 리스트 쭈려주는핸들바 템플릿-->
-	<script id="board-list-temp" type="text/x-handlebars-template">
-	<table class="myTable">
-	    <thead> 
-	        <th>번호</th> 
-	        <th>제목</th> 
-	        <th>글쓴이</th> 
-	        <th>날짜</th> 
-	    </thead> 
-	    <tbody> 
-	        {{#boardVO}} 
-	        <tr> 				
-	            <td>{{bno}}</td> 
-	            <td><a href="mailto:{{bno}}">{{title}}</a></td> 
-	            <td>{{id}}</td> 
-	            <td>{{regDate}}</td> 
-	        </tr> 
-	        {{/boardVO}} 
-	    </tbody> 
-	</table>
-	</script>
-<!-- /핸들바템플릿  -->
-	
-<!-- 핸들바로 목록 가져오기 스크립트  -->
 	<script>
-	function makeBoardList(result){
-		console.log("리스트를 만들자..")
-		if(result.length==0){
-			$('#board-list-div').append("게시물이 존재하지 않습니다.");
-		}else{
-			//핸들바 템플릿 가져오기
-			var source = $("#board-list-temp").html(); 
-			//핸들바 템플릿 컴파일
-			var template = Handlebars.compile(source); 
-			//핸들바 템플릿에 바인딩할 데이터
-			//핸들바 템플릿에 데이터를 바인딩해서 HTML 생성
-			var html = template(result);
-			//생성된 HTML을 DOM에 주입
-			$('#board-list-div').append(html);
-			}
-	}
-	$(document).ready(function(){
-		console.log("문서로딩완료했을때 리스트ajax호출..")
-			$.ajax({
-				url : "list.json",//url이 맨 마지막만 바뀌면 그냥써두됨
-				data : {genre:3},
-				dataType:"json"
-			}).done(makeBoardList);//권장하는 형태
-			console.log("리스트 가져왔다?")
-	});
+	  $(function () {
+		    $(".textarea").wysihtml5();
+		  });
 	</script>
 	</body>
+	
 </html>

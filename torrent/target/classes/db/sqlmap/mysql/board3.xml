@@ -27,11 +27,11 @@
 	     where bno = #{bno} 
 	</delete>
 	
-	<select id="selectBoard" parameterType="int" resultMap="boardVO">
+	<select id="selectBoard" parameterType="int" resultType ="boardVO">
 	    select *         
 		  from tbl_board 
 		  where genre = #{genre}
-		 order by no desc
+		 order by bno desc
 	</select>
 	
 	<select id="selectBoardByNo" parameterType="int" 
