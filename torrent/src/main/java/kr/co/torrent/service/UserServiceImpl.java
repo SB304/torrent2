@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public UserVO login(LoginDTO login) {
+	public String login(LoginDTO login) {
 		return mapper.selectUser(login);
 	}
 

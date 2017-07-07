@@ -10,8 +10,8 @@
 		(#{id},#{password},#{email})
 	</insert>
 	
-	<select id="selectUser" resultType="userVO">
-		select * 
+	<select id="selectUser" resultType="string">
+		select id
 		from tbl_user
 		where id = #{id} and password = #{password}
 	</select>

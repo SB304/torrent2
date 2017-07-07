@@ -35,6 +35,11 @@ public class UserController {
 		session.setAttribute("user", id.substring(0,id.indexOf('@')));
 	}
 	
+	@RequestMapping("/kakaoLogin.json")
+	public void kakaoLogin(String id,HttpSession session){
+		session.setAttribute("user", id.substring(0,id.indexOf('@')));
+	}
+	
 
 
 	@RequestMapping("/join.json")

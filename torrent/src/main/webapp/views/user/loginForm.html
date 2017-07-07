@@ -25,7 +25,10 @@
 <link rel="stylesheet" href="/torrent/resources/css/style.css">
 <script src="/torrent/resources/js/modernizr-2.6.2.min.js"></script>
 <script src="/torrent/resources/js/torrent.js"></script>
-<script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
+<script
+	src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js"></script>
+<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+
 </head>
 <body>
 	<div class="topMenu"></div>
@@ -52,6 +55,8 @@
 				로그인<i class="fa fa-check spaceLeft"></i>
 			</button>
 			<div id="naver_id_login"></div>
+			<a id="kakao-login-btn"></a> <a
+				href="http://developers.kakao.com/logout"></a>
 
 		</form>
 	</div>
@@ -88,7 +93,7 @@
 			}).done(function(result) {
 				if (result == "success") {
 					alert("로그인 성공");
-					self.location = "/"+getContextPath()+"/";
+					self.location = "/" + getContextPath() + "/";
 				} else {
 					alert("id,password를 확인해주세요");
 					$("#login").children().val("");
@@ -96,12 +101,39 @@
 			});
 		});
 
-		var naver_id_login = new naver_id_login("tcOqG9J4JagRMK2wAd9U", "http://192.168.0.36:8000/torrent/views/home.html");
-	  	var state = naver_id_login.getUniqState();
-	  	naver_id_login.setButton("white", 2,40);
-	  	naver_id_login.setDomain("http://192.168.0.36:8000/torrent/views/user/loginForm.html");
-	  	naver_id_login.setState(state);
-	  	naver_id_login.init_naver_id_login();
+		var naver_id_login = new naver_id_login("tcOqG9J4JagRMK2wAd9U",
+				"http://192.168.0.36:8000/torrent/views/home.html");
+		var state = naver_id_login.getUniqState();
+		naver_id_login.setButton("white", 2, 40);
+		naver_id_login
+				.setDomain("http://192.168.0.36:8000/torrent/views/user/loginForm.html");
+		naver_id_login.setState(state);
+		naver_id_login.init_naver_id_login();
+
+		Kakao.init('1a94661e8c680f1300c1e91bdccdfdc7');
+		Kakao.Auth.createLoginButton({
+			container : '#kakao-login-btn',
+			success : function(authObj) {
+				Kakao.API.request({
+					url : '/v1/user/me',
+					success : function(res) {
+						$.ajax({
+							url:getContextPath()+"/user/kakaoLogin.json",
+							data:"id="+res.kaccount_email
+						}).done(function(result){
+							alert("로그인 성공");
+							self.location = getContextPath();
+						});
+					},
+					fail : function(error) {
+						alert(JSON.stringify(error));
+					}
+				});
+			},
+			fail : function(err) {
+				alert(JSON.stringify(err));
+			}
+		});
 	</script>
 </body>
 
