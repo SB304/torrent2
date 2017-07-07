@@ -1,6 +1,6 @@
 	<div id="fh5co-offcanvass">
 		<a href="#" class="fh5co-offcanvass-close js-fh5co-offcanvass-close">Menu <i class="icon-cross"></i> </a>
-		<h1 class="fh5co-logo"><a class="navbar-brand" href="../main/main.html">Warning Torrent</a></h1>
+		<h1 class="fh5co-logo"><a class="navbar-brand" href="/torrent/views/home.html">Warning Torrent</a></h1>
 		<h3 class="fh5co-lead">DownLoad Bulletin Board </h3>
 		<ul>
 			<li class="active"><a href="../main/main.html">The Newest</a></li>
@@ -20,7 +20,7 @@
 		</p>
 		<div id="user">
 <!-- 			<button class="btn btn_default">로그인</button> -->
-			<button class="btn btn_default" id="joinBtn">회원가입</button>
+			<!-- <button class="btn btn_default" id="joinBtn">회원가입</button> -->
 		</div>
 	</div>
 	<header id="fh5co-header" role="banner">
@@ -28,7 +28,7 @@
 			<div class="row">
 				<div class="col-md-12">
 					<a href="#" class="fh5co-menu-btn js-fh5co-menu-btn">Menu <i class="icon-menu"></i></a>
-					<a class="navbar-brand" href="../main/main.html">Warning Torrent</a>		
+					<a class="navbar-brand" href="/torrent/views/home.html">Warning Torrent</a>		
 				</div>
 			</div>
 		</div>
@@ -53,9 +53,17 @@
 		};
 		$("#user").on("click","#loginBtn",function(){
 			self.location = getContextPath()+"/views/user/loginForm.html";
-		})
-		$("#joinBtn").on("click",function(){
+		});
+		$("#user").on("click","#joinBtn",function(){
 			self.location = getContextPath()+"/views/user/joinForm.html";
-		})
+		});
+		$("#user").on("click","#logoutBtn",function(){
+			$.ajax({
+				url:"/torrent/user/logout.json"
+			}).done(function(result){
+				alert("로그아웃 완료");
+				self.location = "/torrent/";
+			});
+		});
 	</script>
 	

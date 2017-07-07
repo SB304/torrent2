@@ -18,7 +18,8 @@ public class HomeController {
 		String result = "";
 		UserVO user = (UserVO) session.getAttribute("user");
 		if (user == null) {
-			result += "<button class='btn btn_default' id='loginBtn'>로그인</button>";
+			result += "<button class='btn btn_default' id='loginBtn'>로그인</button>"
+					+ "<button class='btn btn_default' id='joinBtn'>회원가입</button>";
 		} else {
 			result += "<button class='btn btn_default' id='logoutBtn'>로그아웃</button>";
 		}

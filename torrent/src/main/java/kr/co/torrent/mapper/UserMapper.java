@@ -7,4 +7,5 @@ public interface UserMapper {
 	
 	public void insertUser(UserVO user); 
 	public UserVO selectUser(LoginDTO login);
+	public String selectId(String id);
 }

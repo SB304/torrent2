@@ -21,18 +21,18 @@ public class UserController {
 	
 	@RequestMapping("/login.json")
 	public String login(LoginDTO login,HttpSession session){
-		System.out.println(login.getId());
-		System.out.println(login.getPassword());
-		service.login(login,session);
+		UserVO user = service.login(login);
+		String result = "fail";
+		if(user != null) {
+			result = "success";
+			session.setAttribute("user", user);
+		}
 		
-		return "";
+		return result;
 	}
 
 	@RequestMapping("/join.json")
 	public String join(UserVO user){
-		System.out.println(user.getEmail());
-		System.out.println(user.getId());
-		System.out.println(user.getPassword());
 		service.join(user);
 		return "success";
 	}
@@ -40,6 +40,18 @@ public class UserController {
 	@RequestMapping("/logout.json")
 	public String logout(HttpSession session) {
 		session.invalidate();
-		return "redirect:/";
+		return "success";
+	}
+	
+	@RequestMapping("/idCheck.json")
+	public String idCheck(String id) {
+		System.out.println("idcheck");
+		String check = service.idCheck(id);
+		System.out.println(id);
+		if(check == null) {
+			return "true";
+		}else {
+			return "false";
+		}
 	}
 }
