@@ -1,8 +1,45 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="kr.co.torrent.mapper.BoardMapper2">
+<mapper namespace="kr.co.torrent.mapper.BoardMapper1">
+
+	<select id="selectBoard" resultType="boardVO">
+		select *
+		from tbl_board
+		where genre = 1
+		order by bno desc
+	</select>
+
+	<select id="selectBoardByNo" resultType="boardVO">
+		select *
+		from tbl_board
+		where bno = #{bno}
+	</select>
+	
+	<insert id="insertBoard" parameterType="boardVO">
+		<selectKey keyProperty="no" resultType="boardVO" order="BEFORE">
+			select max(bno)+1 from tbl_board
+		</selectKey>
+	    insert into tbl_board(           
+		    bno, title, content, id, genre   
+		) values (                       
+		    #{bno}, #{title}, #{content}, #{id}, 1 
+		)                               
+	</insert>
+	
+	<update id="updateBoard" parameterType="boardVO">
+		update tbl_board 
+		   set title = #{title},
+		       content = #{content} 
+		 where bno = #{bno}    	    
+	</update>
 		
+	<delete id="deleteBoard" parameterType="boardVO">
+	    delete
+	      from tbl_board
+	     where bno = #{bno} 
+	</delete>
+
 </mapper>
 
 

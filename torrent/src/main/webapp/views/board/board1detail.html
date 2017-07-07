@@ -40,16 +40,20 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.js"></script>
+<!-- sweet -->
+<script src="/torrent/resources/sweet/sweetalert.min.js"></script>
+<link rel="stylesheet" href="/torrent/resources/sweet/sweetalert.css"/>
 </head>
 
-<!-- 날짜 표기 설정 -->
-<script>
-	Handlebars.registerHelper('prettyDate', function(regDate) {
-		var date = new Date(regDate);
-		return date.getFullYear() + "/" + (date.getMonth() + 1) + "/"
-				+ date.getDate();
-	});
-</script>
+	<!-- 날짜 표기 설정 -->
+	<script>
+		Handlebars.registerHelper('prettyDate', function(regDate) {
+			var date = new Date(regDate);
+			return date.getFullYear() + "-" + (date.getMonth() + 1) + "-"
+					+ date.getDate();
+		});
+	</script>
+	
 
 <body>
 	<div class="topMenu"></div>
@@ -63,9 +67,6 @@
 					<li>예능 게시판</li>
 				</ol>
 			</div>
-
-
-
 			<!--  @@@@@@@@@@@ 이부분에 자신의 페이지 코드 작성하시면 됩니다  @@@@@@@@@@-->
 
 			<table>
@@ -73,7 +74,7 @@
 					<tr>
 						<th>번호</th>
 						<th>제목</th>
-						<th>글쓴이</th>
+						<th>내용</th>
 						<th>등록일</th>
 					</tr>
 				</thead>
@@ -85,14 +86,15 @@
 				{{#each .}}
 						<tr>
 							<td>{{bno}}</td>
-							<td><a href="/torrent/views/board/board1detail.html?bno={{bno}}" >{{title}}</a></td>
-							<td>{{id}}</td>
+							<td>{{title}}</td>
+							<td>{{content}}</td>
 							<td>{{prettyDate regDate}}</td>
 						</tr>
 				{{/each}}
-				</script>
-
-
+			</script>
+			<button>수정</button>	
+			<button>삭제</button>	
+			<button>목록</button>	
 
 		</div>
 	</div>
@@ -103,28 +105,73 @@
 		$("div.topMenu").load("/torrent/views/include/topMenu.html");
 		$("div.footer").load("/torrent/views/include/footer.html");
 
-		function makeList(result) {
+		// 파라미터 얻어오기
+		var getParameters = function(paramName) {
+			var returnValue;
+
+			var url = location.href;
+
+			var parameters = (url.slice(url.indexOf('?') + 1, url.length))
+					.split('&');
+
+			for (var i = 0; i < parameters.length; i++) {
+				var varName = parameters[i].split('=')[0];
+				if (varName.toUpperCase() == paramName.toUpperCase()) {
+					returnValue = parameters[i].split('=')[1];
+					return decodeURIComponent(returnValue);
+				}
+			}
+		};
+		console.log(getParameters('bno'));
+		
+// 		핸들바
+		function makeDetail(result) {
 			var source = $("#list-template").html();
 			var template = Handlebars.compile(source);
-			console.log(result);
 			var html = template(result);
-
-			console.log("html : " + html);
-			if (!result) {
-				html = '<tr><td colspan="4">게시물이 존재하지 않습니다.</td></tr>';
-			}
-
 			$("#pageTable").html(html);
-
 		}
 
-		function list() {
+		function detail() {
 			$.ajax({
-				url : "/torrent/board1list.json"
-			}).done(makeList);
+				url : "/torrent/board1detail.json",
+				data : {
+					bno : getParameters('bno')
+				}
+			}).done(makeDetail);
 		}
-
-		list();
+		detail();
+		
+		// 수정
+		$("button:eq(0)").click(function () {
+			location.href="/torrent/views/board/board1update.html?bno=" + getParameters('bno'); 
+		});
+		
+		// 삭제
+		$("button:eq(1)").click(function () {
+			$.ajax({
+				url: "/torrent/board1delete.json",
+				data: {
+					bno: getParameters('bno')	
+				}
+			})
+			.done(function () {
+				swal({
+					  title: "삭제되었습니다.",
+					  type: "warning",
+					  confirmButtonColor: "#DC143C",
+					  confirmButtonText: "확인"
+					},
+					function(){
+						location.href="/torrent/views/board/board1.html";
+					});
+				})
+		});
+		
+		// 목록이동
+		$("button:eq(2)").click(function () {
+			location.href="/torrent/views/board/board1.html";
+		});
 	</script>
 </body>
 
