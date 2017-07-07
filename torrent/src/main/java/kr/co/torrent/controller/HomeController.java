@@ -6,8 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import kr.co.torrent.vo.UserVO;
-
 @Controller
 public class HomeController {
 
@@ -16,7 +14,7 @@ public class HomeController {
 	public String loginConfirm(HttpSession session) {
 
 		String result = "";
-		UserVO user = (UserVO) session.getAttribute("user");
+		Object user = session.getAttribute("user");
 		if (user == null) {
 			result += "<button class='btn btn_default' id='loginBtn'>로그인</button>"
 					+ "<button class='btn btn_default' id='joinBtn'>회원가입</button>";
