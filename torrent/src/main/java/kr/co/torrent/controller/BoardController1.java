@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import kr.co.torrent.service.BoardService;
 import kr.co.torrent.vo.BoardVO;
-import kr.co.torrent.vo.PageVO;
 
 
 @RestController
@@ -20,8 +19,9 @@ public class BoardController1 {
 	
 	// 리스트
 	@RequestMapping("/board1list.json")
-	public List<BoardVO> list(PageVO page){
-		return boardService.list(page);
+	public List<BoardVO> list() {
+		System.out.println("aaa");
+		return boardService.list();
 	}
 	
 	// 상세보기
@@ -41,12 +41,5 @@ public class BoardController1 {
 	@Transactional(rollbackFor=Exception.class)
 	public void Update(BoardVO board) throws Exception{
 		boardService.update(board);
-	}
-	
-	// 등록
-	@RequestMapping("/board1write.json")
-	@Transactional(rollbackFor=Exception.class)
-	public void write(BoardVO board){
-		boardService.insert(board);
 	}
 }

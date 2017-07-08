@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import kr.co.torrent.mapper.BoardMapper1;
 import kr.co.torrent.vo.BoardVO;
-import kr.co.torrent.vo.PageVO;
 
 @Service
 public class BoardServiceImpl implements BoardService{
@@ -16,8 +15,8 @@ public class BoardServiceImpl implements BoardService{
 	private BoardMapper1 mapper;
 
 	@Override
-	public List<BoardVO> list(PageVO page) {
-		return mapper.selectBoard(page);
+	public List<BoardVO> list() {
+		return mapper.selectBoard();
 	}
 	
 	@Override
