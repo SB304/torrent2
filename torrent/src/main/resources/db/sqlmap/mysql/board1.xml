@@ -3,12 +3,22 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.torrent.mapper.BoardMapper1">
 
-	<select id="selectBoard" resultType="boardVO">
+	<select id="selectBoard" resultType="boardVO" parameterType="pageVO">
 		select *
-		from tbl_board
-		where genre = 1
-		order by bno desc
+	 	  from (
+				select rownum rnum, a.*
+				  from (select *
+						  from tbl_board
+						 order by no desc
+						) a
+				)
+		 where rnum between #{begin} and #{end}
 	</select>
+	
+	<select id="selectBoardCount" parameterType="pageVO" resultType="int">
+    	select count(*)
+          from tbl_board 
+    </select> 
 
 	<select id="selectBoardByNo" resultType="boardVO">
 		select *
@@ -17,13 +27,11 @@
 	</select>
 	
 	<insert id="insertBoard" parameterType="boardVO">
-		<selectKey keyProperty="no" resultType="boardVO" order="BEFORE">
-			select max(bno)+1 from tbl_board
-		</selectKey>
+		
 	    insert into tbl_board(           
-		    bno, title, content, id, genre   
+		     title, content, id, genre   
 		) values (                       
-		    #{bno}, #{title}, #{content}, #{id}, 1 
+		    #{title}, #{content}, #{id}, 1 
 		)                               
 	</insert>
 	
