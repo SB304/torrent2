@@ -10,7 +10,16 @@ public class BoardVO {
 	private String id;
 	private Date regDate;
 	private int genre;
+	private int viewCnt;
 	
+	
+	
+	public int getViewCnt() {
+		return viewCnt;
+	}
+	public void setViewCnt(int viewCnt) {
+		this.viewCnt = viewCnt;
+	}
 	public int getBno() {
 		return bno;
 	}
