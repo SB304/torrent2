@@ -12,6 +12,8 @@
 <meta name="author" content="FREEHTML5.CO" />
 <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 <link rel="shortcut icon" href="favicon.ico">
+<link rel="stylesheet"
+	href="/torrent/resources/bootstrap/css/bootstrap.min.css">
 <!-- Google Webfonts -->
 <link
 	href='http://fonts.googleapis.com/css?family=Roboto:400,300,100,500'
@@ -33,81 +35,36 @@
 <script src="/torrent/resources/js/jquery.magnific-popup.min.js"></script>
 <script src="/torrent/resources/js/salvattore.min.js"></script>
 <script src="/torrent/resources/js/main.js"></script>
-<script src="/torrent/resources/js/torrent.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.js"></script>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<!-- Font Awesome -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+<!-- Ionicons -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+<!-- bootstrap wysihtml5 - text editor -->
+<link rel="stylesheet"
+	href="/torrent/resources/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+
 </head>
 <body>
 	<div class="topMenu"></div>
 
 	<div id="fh5co-main">
 		<div class="container">
-			<div class="row">
-				<div class="col-md-10 col-md-offset-1">
-					<h2>Drama Board</h2>
-					<div class="row">
-						<div id="dramaList" class="col-md-12">
-							<table class="table table-bordered">
-								<thead>
-									<tr>
-										<th style="width: 10px">BNO</th>
-										<th>TITLE</th>
-										<th>ID</th>
-										<th>REGDATE</th>
-									</tr>
-								</thead>
-								<tbody id="tbody">
-								
-								</tbody>						
-							</table>
-						</div>
-					</div>
-
-				</div>
-			</div>
+		
+		
 		</div>
 	</div>
 	<div class="footer"></div>
-	<script id="boardList-template" type="text/x-handlebars-template">
-		{{#each .}}
-			<tr>
-				<td>{{bno}}</td>
-				<td><a href="">{{title}}</a></td>
-				<td>{{id}}</td>
-				<td>{{prettifyDate regDate}}</td>
-			<tr>
-		{{/each}}
-	</script>
 
 	<script>
 		$("div.topMenu").load("/torrent/views/include/topMenu.html");
 		$("div.footer").load("/torrent/views/include/footer.html");
-
-		Handlebars.registerHelper("prettifyDate", function(timeValue) {
-			var dateObj = new Date(timeValue);
-			var year = dateObj.getFullYear();
-			var month = dateObj.getMonth() + 1;
-			var date = dateObj.getDate();
-			return year + "-" + month + "-" + date;
-		});
-
-		$.ajax({
-			url : getContextPath() + "/board2/readBoardList.json",
-			data : "genre=2"
-		}).done(makeBoardList)
-
-		function makeBoardList(result) {
-			var source = $("#boardList-template").html();
-			var template = Handlebars.compile(source);
-			var html = template(result);
-			$("#tbody").html(html);
-
-		}
 	</script>
 </body>
-
 </html>
