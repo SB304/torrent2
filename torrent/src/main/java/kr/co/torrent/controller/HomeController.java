@@ -9,6 +9,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class HomeController {
 
+	@RequestMapping("/auth")
+	public String auth() {
+		return "user/loginForm.html";
+	}
+	
+	
 	@RequestMapping("/loginConfirm.json")
 	@ResponseBody
 	public String loginConfirm(HttpSession session) {

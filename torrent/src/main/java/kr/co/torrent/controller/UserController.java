@@ -17,7 +17,6 @@ public class UserController {
 	@Autowired
 	private UserService service;
 	
-	
 	@RequestMapping("/login.json")
 	public String login(LoginDTO login,HttpSession session){
 		String user = service.login(login);
@@ -39,8 +38,6 @@ public class UserController {
 	public void kakaoLogin(String id,HttpSession session){
 		session.setAttribute("user", id.substring(0,id.indexOf('@')));
 	}
-	
-
 
 	@RequestMapping("/join.json")
 	public String join(UserVO user){

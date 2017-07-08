@@ -14,11 +14,11 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		HttpSession session = request.getSession();
-		UserVO user = (UserVO) session.getAttribute("user");
+		String user = (String) session.getAttribute("user");
 		if (user != null) {
 			return true;
 		}
-		response.sendRedirect("loginForm");
+		response.sendRedirect("/auth");
 		return false;
 	}
 
