@@ -30,5 +30,11 @@ public class HomeController {
 
 		return result;
 	}
+	
+	@RequestMapping("/getSessionId")
+	@ResponseBody
+	public String getSessionId(HttpSession session) {
+		return (String)session.getAttribute("user");
+	}
 
 }

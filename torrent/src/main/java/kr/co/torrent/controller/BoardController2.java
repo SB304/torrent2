@@ -18,7 +18,6 @@ public class BoardController2 {
 	
 	@RequestMapping("/readBoardList.json")
 	public List<BoardVO> readBoardList(int genre){
-		System.out.println("readBoardList");
 		return service.readBoardList(genre);
 	}
 	

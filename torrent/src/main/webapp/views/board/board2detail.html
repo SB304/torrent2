@@ -34,8 +34,7 @@
 <script src="/torrent/resources/js/salvattore.min.js"></script>
 <script src="/torrent/resources/js/main.js"></script>
 <script src="/torrent/resources/js/torrent.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.js"></script>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script
@@ -47,37 +46,78 @@
 	<div id="fh5co-main">
 		<div class="container">
 			<div class="row">
-				<div class="col-md-10 col-md-offset-1">
-					<h2>Drama Board</h2>
-					<div class="row">
-						<div id="dramaList" class="col-md-12">
-							<table class="table table-bordered">
-								<thead>
-									<tr>
-										<th style="width: 10px">BNO</th>
-										<th>TITLE</th>
-										<th>ID</th>
-										<th>REGDATE</th>
-									</tr>
-								</thead>
-								<tbody id="tbody">
-								
-								</tbody>						
-							</table>
-						</div>
+				<div id="dramaDetail"class="col-md-10 col-md-offset-1">
+				</div>
+			</div>
+			<div class="row">
+				<div id="dramaDetail"class="col-md-10 col-md-offset-1">
+					<div id="btns">
+						<button class="btn btn-primary">목록</button>
 					</div>
-
 				</div>
 			</div>
 		</div>
 	</div>
+	
+	
 	<div class="footer"></div>
+	
+	<script id="boardDetail-template" type="text/x-handlebars-template">
+		<table class="table">
+			<tbody>
+				<tr>
+					<td>{{bno}}</td>
+					<td>{{title}}</td>
+					<td>{{prettifyDate regDate}}</td>
+				</tr>
+				<tr>
+					<td colspan="3">여기는 torrent 파일 받는 링크</td>
+				</tr>
+				<tr>
+					<td colspan="3">여기는 content <br> {{content}}</td>
+				</tr>
+			<tbody>
+		</table>
+	</script>
 	
 
 	<script>
 		$("div.topMenu").load("/torrent/views/include/topMenu.html");
 		$("div.footer").load("/torrent/views/include/footer.html");
-
+		
+		Handlebars.registerHelper("prettifyDate",function(timeValue){
+			var dateObj = new Date(timeValue);
+			var year = dateObj.getFullYear();
+			var month = dateObj.getMonth() + 1;
+			var date = dateObj.getDate();
+			return year + "-" + month + "-" + date;
+		})
+		readDetailBoard();		
+		
+		function readDetailBoard(){
+			$.ajax({
+				url:getContextPath()+"/board2/readBoard.json",
+				data:"bno="+getURLParam("bno")
+			}).done(makeDetail);
+		}
+		
+		
+		
+		function makeDetail(result){
+			var source = $("#boardDetail-template").html();
+			var template = Handlebars.compile(source);
+			var html = template(result);
+			$("#dramaDetail").html(html);
+			if(result.id == getSessionId()){
+				makeBtn();
+			}
+		}
+		
+		function makeBtn(){
+			var html = "<button id='removeBtn' class='btn btn-danger'>삭제</button><button id='modifyBtn' class='btn btn-warning'>수정</button>";
+			$("#btns").append(html);
+		}
+		
 	
 	</script>
 </body>
