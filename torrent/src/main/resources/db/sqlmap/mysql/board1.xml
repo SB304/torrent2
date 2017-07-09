@@ -5,10 +5,17 @@
 
 	<select id="selectBoard" resultType="boardVO">
 		select *
-		from tbl_board
-		where genre = 1
-		order by bno desc
+	 	  from tbl_board
+	 	  where genre = 1
+	 	  order by bno desc
+	 	  limit  ${begin}, ${end}
 	</select>
+	
+	<select id="selectBoardCount" parameterType="pageVO" resultType="int">
+    	select count(*)
+          from tbl_board 
+         where genre = 1
+    </select> 
 
 	<select id="selectBoardByNo" resultType="boardVO">
 		select *
@@ -39,6 +46,37 @@
 	      from tbl_board
 	     where bno = #{bno} 
 	</delete>
+
+
+	<select id="selectLikeCount" parameterType="int" resultType="int">
+		select count(*)
+		  from tbl_like
+		 where bno = #{bno}
+	</select>
+ 
+	<select id="checkLike" parameterType="likeVO" resultType="likeVO">
+		select *
+		  from tbl_like
+		 where id = #{id}
+		   and bno = #{bno}
+	</select>
+	
+	<delete id="deleteLike" parameterType="likeVO">
+		delete
+		  from tbl_like
+		 where bno = #{bno}
+		   and id = #{id}
+	</delete>
+	
+	<insert id="insertLike" parameterType="likeVO">
+		insert into tbl_like (
+			bno,
+			id
+		) values (
+			#{bno},
+			#{id}
+		)
+	</insert>
 
 </mapper>
 

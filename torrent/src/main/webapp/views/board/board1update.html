@@ -11,8 +11,6 @@
 <meta name="author" content="FREEHTML5.CO" />
 <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 <link rel="shortcut icon" href="favicon.ico">
-<link rel="stylesheet"
-	href="/torrent/resources/bootstrap/css/bootstrap.min.css">
 <!-- Google Webfonts -->
 <link
 	href='http://fonts.googleapis.com/css?family=Roboto:400,300,100,500'
@@ -42,53 +40,45 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.js"></script>
 <!-- sweet -->
 <script src="/torrent/resources/sweet/sweetalert.min.js"></script>
-<link rel="stylesheet" href="/torrent/resources/sweet/sweetalert.css"/>
+<link rel="stylesheet" href="/torrent/resources/sweet/sweetalert.css" />
+
+
 </head>
-
-	<!-- 날짜 표기 설정 -->
-	<script>
-		Handlebars.registerHelper('prettyDate', function(regDate) {
-			var date = new Date(regDate);
-			return date.getFullYear() + "-" + (date.getMonth() + 1) + "-"
-					+ date.getDate();
-		});
-	</script>
-	
-
 <body>
 	<div class="topMenu"></div>
 	<!-- END .header -->
+	<!--  @@@@@@@@@@@ 이부분에 자신의 페이지 코드 작성하시면 됩니다  @@@@@@@@@@-->
 
 	<div id="fh5co-main">
 		<div class="container">
-			<div>
-				<ol>
-					<li>home</li>
-					<li>예능 게시판</li>
-				</ol>
-			</div>
-			<!--  @@@@@@@@@@@ 이부분에 자신의 페이지 코드 작성하시면 됩니다  @@@@@@@@@@-->
-			<table>
-				<tbody id="pageTable">
-				</tbody>
+			<div class="row">
+				<div class="col-md-10 col-md-offset-1">
+					<h2>게시물 수정</h2>
+					<div class="fh5co-spacer fh5co-spacer-sm"></div>
+					<div class="row">
+							<div class="form-group">
+							<script id="list-template" type="text/x-handlebars-template">
+							{{#each.}}
+								<label>제목 </label>
+								<input type="text" name="title"  class="form-control" value={{title}} ><br><Br>
+								<label>내용</label>
+								<textarea name="content" class="form-control" rows="5" cols="70" style="resize:none;">{{content}}</textarea>
+							{{/each}}
+							</script>
+							</div>
+						<br><br>
+						
+						<div style="position:relative; top:20px;"> 
+						<button type="submit" class="btn btn-primary">수정</button>
+						<input type='reset' class="btn" value='재입력' /> 
+						<input type="button" class="btn" value="목록" />
+						</div>
+				</div>
 
-			</table>
-			<script id="list-template" type="text/x-handlebars-template">
-				{{#each .}}
-						<tr>
-							<td>제목</td>
-							<td><input type="text" name="title" value={{title}}></td>
-						</tr>
-						<tr>
-							<td>내용</td>
-							<td><textarea name="content" rows="5" cols="70" style="resize: none;">{{content}}</textarea></td>
-						</tr>
-				{{/each}}
-			</script>
-			<button type="submit">수정</button>	
-			<input type='reset' class="reset" value='재입력'/>
-			<input type="button" value="목록"/>
+			</div>
+
 		</div>
+	</div>
 	</div>
 	<div class="footer"></div>
 
@@ -96,6 +86,7 @@
 	<script>
 		$("div.topMenu").load("/torrent/views/include/topMenu.html");
 		$("div.footer").load("/torrent/views/include/footer.html");
+		
 		
 		// bno 파라미터 얻어오기
 		var getParameters = function(paramName) {
@@ -115,48 +106,49 @@
 			}
 		};
 		console.log(getParameters('bno'));
-		
+
 		// 수정 완료
-		$("button[type='submit']").click(function () {	
-			if($("input[name='title']").val() != null){
-			$.ajax({
-				url : "/torrent/board1update.json",
-				data : {
-					bno: getParameters('bno'),	
-					title: $("input[name='title']").val(),	
-					content: $("textarea[name='content']").val()	
-				}
-			
-			}).done(function() {
-				swal({
-					  title: "수정 완료",
-					  type: "success",
-					  confirmButtonColor: "#DC143C",
-					  confirmButtonText: "확인"
-					},
-					function(){
-						location.href="/torrent/views/board/board1.html";
+		$("button[type='submit']").click(function() {
+			if ($("input[name='title']").val() != null) {
+				$.ajax({
+					url : "/torrent/board1update.json",
+					data : {
+						bno : getParameters('bno'),
+						title : $("input[name='title']").val(),
+						content : $("textarea[name='content']").val()
+					}
+
+				}).done(function() {
+					swal({
+						title : "수정 완료",
+						type : "success",
+						confirmButtonColor : "#DC143C",
+						confirmButtonText : "확인"
+					}, function() {
+						location.href = "/torrent/views/board/board1.html";
 					});
 				})
 			} else {
-				swal{
-					  title: "수정 완료",
-					  type: "success",
-					  confirmButtonColor: "#DC143C",
-					  confirmButtonText: "확인"
-					}
+				swal({
+					title : "수정 완료",
+					type : "success",
+					confirmButtonColor : "#DC143C",
+					confirmButtonText : "확인"
+				})
 			}
 		})
-		
+
 		// 입력된 내용
 		function makeDetail(result) {
+			console.log(result[0].title);
 			var source = $("#list-template").html();
 			var template = Handlebars.compile(source);
 			var html = template(result);
-			$("#pageTable").html(html);
+			$(".form-group").html(html);
 		}
 
 		function detail() {
+			
 			$.ajax({
 				url : "/torrent/board1detail.json",
 				data : {
@@ -165,12 +157,11 @@
 			}).done(makeDetail);
 		}
 		detail();
-		
+
 		// 목록이동
-		$("input[type='button']").click(function () {
-			location.href="/torrent/views/board/board1.html";
+		$("input[type='button']").click(function() {
+			location.href = "/torrent/views/board/board1.html";
 		});
-		
-</script>
+	</script>
 </body>
 </html>

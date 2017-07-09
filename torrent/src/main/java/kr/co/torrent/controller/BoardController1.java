@@ -1,6 +1,7 @@
 package kr.co.torrent.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import kr.co.torrent.service.BoardService;
 import kr.co.torrent.vo.BoardVO;
+import kr.co.torrent.vo.PageVO;
 
 
 @RestController
@@ -19,9 +21,8 @@ public class BoardController1 {
 	
 	// 리스트
 	@RequestMapping("/board1list.json")
-	public List<BoardVO> list() {
-		System.out.println("aaa");
-		return boardService.list();
+	public Map<String, Object> list(PageVO page){
+		return boardService.list(page);
 	}
 	
 	// 상세보기
