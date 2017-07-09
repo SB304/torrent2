@@ -6,20 +6,20 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import kr.co.torrent.vo.UserVO;
-
 public class AuthInterceptor extends HandlerInterceptorAdapter {
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
+		System.out.println("AuthInterceptor");
 		HttpSession session = request.getSession();
 		String user = (String) session.getAttribute("user");
-		if (user != null) {
-			return true;
+		
+		if(user == null) {
+			response.sendRedirect("auth");
+			return false;
 		}
-		response.sendRedirect("/auth");
-		return false;
+		return true;
 	}
 
 }

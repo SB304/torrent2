@@ -11,6 +11,7 @@ public class HomeController {
 
 	@RequestMapping("/auth")
 	public String auth() {
+		System.out.println("asdasdasdasdasdasdsadasdas");
 		return "user/loginForm.html";
 	}
 	
