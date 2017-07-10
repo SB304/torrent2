@@ -126,15 +126,24 @@
 
 		// 수정 완료
 		$("button[type='submit']").click(function() {
+			var content = $("div[contenteditable] > p").html();
 			var fileEle = $("input[name='attachFile']")[0];
 			var fd = new FormData();
 			fd.append("title", $("input[name='title']").val());
-			fd.append("content", $('#myEditor').summernote('code'));
+			fd.append("content", content);
 			for (var i = 0; i < fileEle.files.length; i++) {
 				fd.append("attachFile" + i, fileEle.files[i]);
 			}
 
-			if ($("input[name='title']").val() != null) {
+			if ($("input[name='title']").val() == "" || content == "") {
+				swal({
+					title : "수정할 내용을 입력하세요!!",
+					type : "warning",
+					confirmButtonColor : "#DC143C",
+					confirmButtonText : "확인"
+				})
+			} else {
+				console.log("content:" + content);
 				$.ajax({
 					url : "/torrent/board1update.json",
 					data : fd,
@@ -145,30 +154,23 @@
 					swal({
 						title : "수정 완료",
 						type : "success",
-						confirmButtonColor : "#DC143C",
+						confirmButtonColor : "#00FF00",
 						confirmButtonText : "확인"
 					}, function() {
 						location.href = "/torrent/views/board/board1.html";
 					});
-				})
-			} else {
-				swal({
-					title : "수정 내용 재입력 ",
-					type : "success",
-					confirmButtonColor : "#DC143C",
-					confirmButtonText : "확인"
 				})
 			}
 		})
 
 		// 입력된 내용
 		function makeDetail(result) {
-			console.log(result.board.content);
+			console.log("입력 : " + result.board.content);
 			var source = $("#list-template").html();
 			var template = Handlebars.compile(source);
 			var html = template(result);
 			$(".form-group").html(html);
-			$("#myEditor.p").append(result.board.content);
+			$("div[contenteditable] > p").html(result.board.content);
 		}
 
 		function detail() {

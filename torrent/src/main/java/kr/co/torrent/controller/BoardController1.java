@@ -54,8 +54,55 @@ public class BoardController1 {
 	// 수정
 	@RequestMapping("/board1update.json")
 	@Transactional(rollbackFor=Exception.class)
-	public void Update(BoardVO board) {
-		boardService.update(board);
+	public void Update(MultipartHttpServletRequest mRequest, BoardVO boardVO, HttpSession session) {
+		String uploadPath = servletContext.getRealPath("/upload");
+		// upload 하위에 모듈별 날짜 형태의 디렉토리 생성후 저장
+		SimpleDateFormat sdf = new SimpleDateFormat("/yyyy/MM/dd");
+		String datePath = sdf.format(new Date());
+		uploadPath += datePath;
+		File f = new File(uploadPath);
+		if (!f.exists()) {
+			f.mkdirs();
+		}
+
+		Iterator<String> iter = mRequest.getFileNames();
+		FileVO boardFile = null;
+		while (iter.hasNext()) {
+			String formFileName = iter.next();
+			MultipartFile mFile = mRequest.getFile(formFileName);
+			String oriFileName = mFile.getOriginalFilename();
+			System.out.println("원본 파일명 : " + oriFileName);
+			if (oriFileName != null && !oriFileName.equals("")) {
+				String ext = "";
+				int index = oriFileName.lastIndexOf(".");
+				if (index != -1) {
+					ext = oriFileName.substring(index);
+				}
+
+				long fileSize = mFile.getSize();
+				System.out.println("파일 사이즈 : " + fileSize);
+				String saveFileName = "mlec-" + UUID.randomUUID().toString() + ext;
+				System.out.println("저장할 파일명 : " + saveFileName);
+				try {
+					mFile.transferTo(new File(uploadPath + "/" + saveFileName));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				boardFile = new FileVO();
+				boardFile.setOriName(oriFileName);
+				boardFile.setSysName(saveFileName);
+				boardFile.setPath(datePath);
+				boardFile.setSize(fileSize);
+			}
+		} 
+		String id = (String)session.getAttribute("id");
+		boardVO.setTitle(mRequest.getParameter("title"));
+		boardVO.setContent(mRequest.getParameter("content"));
+		System.out.println(mRequest.getParameter("content"));
+		
+		
+		boardService.update(boardVO, boardFile);
 		
 	}
 	
@@ -105,7 +152,6 @@ public class BoardController1 {
 		} 
 		String id = (String)session.getAttribute("user");
 		boardVO.setId(id);
-		boardVO.setGenre(1);
 		boardVO.setTitle(mRequest.getParameter("title"));
 		boardVO.setContent(mRequest.getParameter("content"));
 		

@@ -86,12 +86,12 @@
 						</div>
 						<div class="col-md-12">
 							내용
-							<form id="fileForm"  enctype="multipart/form-data" >
+							<form id="fileForm" enctype="multipart/form-data">
 								<div id="myEditor"></div>
-								<input type="file" id="attachFile" name="attachFile" value='첨부파일' />
+								<input type="file" id="attachFile" name="attachFile"
+									value='첨부파일' />
 							</form>
-							<br>
-							<br>
+							<br> <br>
 							<div class="form-group">
 								<button id="writeBtn" type="submit" class="btn btn-primary">등록</button>
 								<button class="btn">취소</button>
@@ -165,23 +165,32 @@
 			for(var i = 0; i<fileEle.files.length;i++){
 				fd.append("attachFile"+i,fileEle.files[i]);
 			}
-			$.ajax({
-				url : "/torrent/board1write.json",
-				data : fd,
-				type : "POST",
-				contentType: false,
-				processData: false
-			}).done(function() {
+			if ($("input[name='title']").val() == "" || contentParse == "") {
 				swal({
-					title : "등록 완료",
+					title : "내용을 입력해 주세요!!",
 					type : "warning",
 					confirmButtonColor : "#DC143C",
 					confirmButtonText : "확인"
-				}, function() {
-					location.href = "/torrent/views/board/board1.html";
+				})
+			}else {
+				$.ajax({
+					url : "/torrent/board1write.json",
+					data : fd,
+					type : "POST",
+					contentType: false,
+					processData: false
+				}).done(function() {
+					swal({
+						title : "등록 완료",
+						type : "success",
+						confirmButtonColor : "#00FF00",
+						confirmButtonText : "확인"
+					}, function() {
+						location.href = "/torrent/views/board/board1.html";
+					});
 				});
-			});
-		});
+			};
+		})
 
 		// 취소
 		$("button[class='btn']").click(function() {

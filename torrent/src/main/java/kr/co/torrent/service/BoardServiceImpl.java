@@ -59,13 +59,6 @@ public class BoardServiceImpl implements BoardService{
 		mapper.deleteBoard(bno);
 	}
 
-	
-
-	@Override
-	public int update(BoardVO board) {
-		return mapper.updateBoard(board);
-	}
-	
 	@Override
 	@Transactional(rollbackFor=Exception.class)
 	public int doLike(LikeVO like){
@@ -95,6 +88,19 @@ public class BoardServiceImpl implements BoardService{
 			file.setBno(bno);
 			mapper.insertFile(file);
 		}
+	}
+
+	@Transactional
+	@Override
+	public void update(BoardVO board, FileVO file) {
+		mapper.updateBoard(board);
+		System.out.println(board.getContent());
+		int bno = mapper.selectBno();
+		if(file != null){
+			file.setBno(bno);
+			mapper.insertFile(file);
+		}
+		
 	}
 
 }
