@@ -52,7 +52,6 @@
 			</div>
 		</div>
 	</div>
-	
 
 	<div class="footer"></div>
 
@@ -67,9 +66,9 @@
 	<script id="homeData-template" type="text/x-handlebars-template">
 		{{#each .}}
 			<div class="item">
-				<di class="animate-box">
-					<a href="/torrent/views/board/board3detail?bno={{bno}}" class="image-popup fh5co-board-img">
-						{{content}}
+				<div class="animate-box">
+					<a href="/torrent/views/board/board3detail?bno={{bno}}"  >
+						<img src="http://localhost:8000/torrent/tempImgUpload/mlec-5b7f9aa5-3a73-45e2-9926-2139c06842f5.jpg">
 					</a>
 				</div>
 				<div class="fh5co-desc">{{title}}</div>
@@ -86,10 +85,13 @@
 		}).done(makeHomeData);
 		
 		function makeHomeData(result){
+			console.log(result);
 			var source = $("#homeData-template").html();
 			var template = Handlebars.compile(source);
 			var html = template(result);
+								
 			$("#fh5co-board").html(html);
+			console.log(html);
 		}
 		
 		

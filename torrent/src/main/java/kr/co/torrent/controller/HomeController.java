@@ -56,11 +56,9 @@ public class HomeController {
 		
 		List<BoardVO> list = service.homeData();
 		for(BoardVO board : list) {
-			System.out.println(board.getContent());
-			
 			String content = board.getContent();
-			board.setContent(content.substring(content.indexOf("<img"),content.indexOf("</p>")));
-			System.out.println(content.substring(content.indexOf("<img"),content.indexOf("</p>")));
+			board.setContent(content.substring(content.indexOf("http://"),content.indexOf("\">")));
+			System.out.println(content.substring(content.indexOf("http://"),content.indexOf("\">")));
 		}
 		
 		return list;
