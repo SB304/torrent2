@@ -15,7 +15,6 @@
  	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/" />
-			<mvc:exclude-mapping path="/user/*" />
 			<bean class="kr.co.torrent.interceptor.AuthInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>

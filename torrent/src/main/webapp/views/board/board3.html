@@ -88,16 +88,18 @@ $("#writeBtn").on("click",function(){
 	        <th>제목</th> 
 	        <th>글쓴이</th> 
 	        <th>날짜</th> 
+	        <th>조회수</th> 
 	    </thead> 
 	    <tbody> 
-	        {{#boardVO}} 
+	        {{#each .}} 
 	        <tr> 				
 	            <td>{{bno}}</td> 
-	            <td><a href="mailto:{{bno}}">{{title}}</a></td> 
+	            <td><a href="board3detail.html?{{bno}}">{{title}}</a></td> 
 	            <td>{{id}}</td> 
 	            <td>{{regDate}}</td> 
+	            <td>{{viewCnt}}</td> 
 	        </tr> 
-	        {{/boardVO}} 
+	        {{/each}} 
 	    </tbody> 
 	</table>
 	</script>
@@ -116,6 +118,7 @@ $("#writeBtn").on("click",function(){
 			var template = Handlebars.compile(source); 
 			//핸들바 템플릿에 바인딩할 데이터
 			//핸들바 템플릿에 데이터를 바인딩해서 HTML 생성
+			console.dir(result);
 			var html = template(result);
 			//생성된 HTML을 DOM에 주입
 			$('#board-list-div').append(html);

@@ -14926,19 +14926,19 @@ function program17(depth0,data) {
 }(function ($) {
   $.fn.wysihtml5.locale.en = $.fn.wysihtml5.locale['en-US'] = {
     font_styles: {
-      normal: 'Normal text',
-      h1: 'Heading 1',
-      h2: 'Heading 2',
-      h3: 'Heading 3',
-      h4: 'Heading 4',
-      h5: 'Heading 5',
-      h6: 'Heading 6'
+      normal: '기본 양식',
+      h1: '제목 1',
+      h2: '제목 2',
+      h3: '본문 1',
+      h4: '본문2',
+      h5: '본문3',
+      h6: '본문4'
     },
     emphasis: {
-      bold: 'Bold',
-      italic: 'Italic',
-      underline: 'Underline',
-      small: 'Small'
+      bold: '굵게',
+      italic: '기울임',
+      underline: '밑줄',
+      small: '작게'
     },
     lists: {
       unordered: 'Unordered list',

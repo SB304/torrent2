@@ -39,9 +39,9 @@ public class BoardServiceImpl3 implements BoardService3 {
 		return mapper.selectBoard(genre);
 	}
 	@Override
-	public Map<String, Object> detail(int no) throws Exception {
-		BoardVO board = mapper.selectBoardByNo(no);
-		FileVO file = mapper.selectFileByNo(no);
+	public Map<String, Object> detail(int bno) throws Exception {
+		BoardVO board = mapper.selectBoardByNo(bno);
+		FileVO file = mapper.selectFileByNo(bno);
 		Map<String, Object> map = new HashMap<>();
 		map.put("file", file);
 		map.put("board", board);
@@ -51,10 +51,12 @@ public class BoardServiceImpl3 implements BoardService3 {
 	@Override
 	@Transactional(rollbackFor=Exception.class)
 	public void insert(BoardVO board, FileVO file) throws Exception {
+		int bno = mapper.insertBoard(board);
 		if (file != null) {
+			System.out.println("새로작성한 글번호 : "+board.getBno());
+			file.setBno(board.getBno());
 			mapper.insertFile(file);
 		}
-		mapper.insertBoard(board);
 	}
 
 	@Override
@@ -66,8 +68,8 @@ public class BoardServiceImpl3 implements BoardService3 {
 	////////////// 댓글///////////////////////////
 	@Override
 	@Transactional(rollbackFor=Exception.class)
-	public void deleteComment(int no) throws Exception {
-		mapper.deleteReply(no);
+	public void deleteComment(int rno) throws Exception {
+		mapper.deleteReply(rno);
 	}
 
 	@Override
@@ -84,8 +86,8 @@ public class BoardServiceImpl3 implements BoardService3 {
 	}
 
 	@Override
-	public List<ReplyVO> selectCommentByNo(int no) throws Exception {
-		return mapper.selectBoardCommentByNo(no);
+	public List<ReplyVO> selectReplyByNo(int bno) throws Exception {
+		return mapper.selectReplyByNo(bno);
 	}
 
 	//////////// 추천수/////////////////////////////////

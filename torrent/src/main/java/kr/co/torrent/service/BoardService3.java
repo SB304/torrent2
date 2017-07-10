@@ -20,7 +20,7 @@ public interface BoardService3 {
 	public void deleteComment(int no) throws Exception;
 	public void updateComment(ReplyVO comment) throws Exception;
 	public void insertComment(ReplyVO comment) throws Exception;
-	public List<ReplyVO> selectCommentByNo(int no) throws Exception; 
+	public List<ReplyVO> selectReplyByNo(int no) throws Exception; 
 	/////////추천수 서비스//////////////////////
 	public LikeVO checkRecommend(LikeVO recommend) throws Exception;
 	public int countRecommend(int no) throws Exception;

@@ -9,9 +9,9 @@
 		) values (                       
 		    #{id}, #{genre}, #{title}, #{content} 
 		)                               
-		<selectKey keyProperty="bno" resultType="int">
-      	  SELECT LAST_INSERT_ID()
-    	</selectKey>
+		<selectKey resultType="int" keyProperty="bno" order="AFTER">
+      	  SELECT LAST_INSERT_ID()
+    	</selectKey> 
 	</insert>
 	
 	<update id="updateBoard" parameterType="boardVO">
@@ -63,9 +63,10 @@
 
 	
 	<select id="selectFileByNo" parameterType="int" resultType="fileVO">
-	    select bno,
+	    select fno,
+	    	   bno,
 	           oriName,
-	           systemName,
+	           sysName,
 	           path,
 	           size
 	      from tbl_file

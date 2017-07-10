@@ -8,7 +8,7 @@ import kr.co.torrent.vo.LikeVO;
 import kr.co.torrent.vo.BoardVO;
 
 public interface BoardMapper3 {
-	public void insertBoard(BoardVO board) throws Exception;
+	public int insertBoard(BoardVO board) throws Exception;
 	public int updateBoard(BoardVO board) throws Exception;
 	public int deleteBoard(int no) throws Exception;
 	public List<BoardVO> selectBoard(int genre) throws Exception;
@@ -19,7 +19,7 @@ public interface BoardMapper3 {
 	public FileVO selectFileByNo(int fileNo) throws Exception;
 	
 	// 댓글 작업
-	public List<ReplyVO> selectBoardCommentByNo(int no) throws Exception;
+	public List<ReplyVO> selectReplyByNo(int no) throws Exception;
 	public void insertReply(ReplyVO comment) throws Exception;
 	public void deleteReply(int commentNo) throws Exception;
 	public void updateReply(ReplyVO comment) throws Exception;
