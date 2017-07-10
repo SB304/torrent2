@@ -138,7 +138,7 @@ $("#writeBtn").on("click",function(){
 			console.dir(result);
 			var html = template(result);
 			//생성된 HTML을 DOM에 주입
-			$('#board-list-div').append(html);
+			$('#board-list-div').html(html);
 			}
 	}
 /* 	$(document).ready(function(){
@@ -153,26 +153,31 @@ $("#writeBtn").on("click",function(){
 	
 	//페이지 리스트
 	function makePageList(data) {
+		
+		var pageResult = data.pageResult;
+		var list = data.list;
+		makeBoardList(list);
 		var html = "";
-		if (data.count != 0) {
+		
+		if (pageResult.count != 0) {
 			var clz = "";
-			if (data.prev == false) {
+			if (pageResult.prev == false) {
 				clz = "disabled";
 			}
 			html += '<li class="' + clz + '">';
 			
 			var fn = "";
 			
-			if (data.prev == true) {
-				fn = "javascript:pageList(" + (data.beginPage - 1) + ");";
+			if (pageResult.prev == true) {
+				fn = "javascript:pageList(" + (pageResult.beginPage - 1) + ");";
 			}
 			html += '<a href="' + fn + '" aria-label="Previous">';
 			html += '    <span aria-hidden="true">&laquo;</span>';
 			html += '</a>';
 		    html += '</li>';
 			
-		    for (var i = data.beginPage; i <= data.endPage; i++) {
-		    	if (i == data.pageNo) {
+		    for (var i = pageResult.beginPage; i <= pageResult.endPage; i++) {
+		    	if (i == pageResult.pageNo) {
 				    html += '<li class="active"><a href="#1">' + i + '</a></li>';
 		    	}
 		    	else {
@@ -181,15 +186,15 @@ $("#writeBtn").on("click",function(){
 		    }
 		    
 			clz = "";
-			if (data.next == false) {
+			if (pageResult.next == false) {
 				clz = "disabled";
 			}
 			html += '<li class="' + clz + '">';
 			
 			fn = "";
 			
-			if (data.next == true) {
-				fn = "javascript:pageList(" + (data.endPage + 1) + ");";
+			if (pageResult.next == true) {
+				fn = "javascript:pageList(" + (pageResult.endPage + 1) + ");";
 			}
 			html += '<a href="' + fn + '" aria-label="Next">';
 			html += '    <span aria-hidden="true">&raquo;</span>';
