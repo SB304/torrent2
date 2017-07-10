@@ -113,7 +113,7 @@ $("#writeBtn").on("click",function(){
 	            <td>{{bno}}</td> 
 	            <td><a href="board3detail.html?{{bno}}">{{title}}</a></td> 
 	            <td>{{id}}</td> 
-	            <td>{{regDate}}</td> 
+	            <td>{{prettifyDate regDate}}</td> 
 	            <td>{{viewCnt}}</td> 
 	        </tr> 
 	        {{/each}} 
@@ -124,6 +124,16 @@ $("#writeBtn").on("click",function(){
 	
 <!-- 핸들바로 목록 가져오기 스크립트  -->
 	<script>
+	
+	Handlebars.registerHelper("prettifyDate", function(timeValue) {
+		var dateObj = new Date(timeValue);
+		var year = dateObj.getFullYear();
+		var month = dateObj.getMonth() + 1;
+		var date = dateObj.getDate();
+		return year + "-" + month + "-" + date;
+	});
+	
+	
 	function makeBoardList(result){
 		console.log("리스트를 만들자..")
 		if(result.length==0){

@@ -10,4 +10,5 @@ public interface BoardMapper2 {
 	public BoardVO selectBoard(int bno);
 	public void updateBoard(BoardVO board);
 	public void deleteBoard(int bno);
+	public List<BoardVO> selectPopularList();
 }

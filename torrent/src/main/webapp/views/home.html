@@ -47,32 +47,12 @@
 			<div class="row">
 
 				<div id="fh5co-board" data-columns>
-
-					<div class="item">
-						<div class="animate-box">
-							<a href="/torrent/resources/images/img_1.jpg"
-								class="image-popup fh5co-board-img" title="이곳은 글제목을 가져와서 출력??">
-								<img src="/torrent/resources/images/img_1.jpg"
-								>
-							</a>
-						</div>
-						<div class="fh5co-desc">1간단한 내용이들어갑니다....최신 게시글을 뿌려줄거에요</div>
-					</div>
-					<div class="item">
-						<div class="animate-box">
-							<a href="/torrent/resources/images/img_2.jpg"
-								class="image-popup fh5co-board-img">
-								<img src="/torrent/resources/images/img_2.jpg"></a>
-							<div class="fh5co-desc">2간단한 내용이들어가요....DB에서 가져온 정보로
-								뿌려줍니다..</div>
-						</div>
-					</div>
 					
 				</div>
 			</div>
 		</div>
 	</div>
-
+	
 
 	<div class="footer"></div>
 
@@ -84,9 +64,35 @@
 	<script src="/torrent/resources/js/jquery.magnific-popup.min.js"></script>
 	<script src="/torrent/resources/js/salvattore.min.js"></script>
 	<script src="/torrent/resources/js/main.js"></script>
+	<script id="homeData-template" type="text/x-handlebars-template">
+		{{#each .}}
+			<div class="item">
+				<di class="animate-box">
+					<a href="/torrent/views/board/board3detail?bno={{bno}}" class="image-popup fh5co-board-img">
+						{{content}}
+					</a>
+				</div>
+				<div class="fh5co-desc">{{title}}</div>
+			</div>
+		{{/each}}
+	</script>
+	
 	<script>
 		$("div.topMenu").load("/torrent/views/include/topMenu.html");
 		$("div.footer").load("/torrent/views/include/footer.html");
+		
+		$.ajax({
+			url:getContextPath()+"/homeData.json"
+		}).done(makeHomeData);
+		
+		function makeHomeData(result){
+			var source = $("#homeData-template").html();
+			var template = Handlebars.compile(source);
+			var html = template(result);
+			$("#fh5co-board").html(html);
+		}
+		
+		
 		var naver_id_login = new naver_id_login("tcOqG9J4JagRMK2wAd9U",
 				"http://192.168.0.36:8000/torrent/views/home.html");
 		naver_id_login.get_naver_userprofile("naverSignInCallback()");

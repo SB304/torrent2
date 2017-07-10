@@ -11,4 +11,5 @@ public interface BoardService2 {
 	public BoardVO readBoard(int bno);
 	public void modifyBoard(BoardVO board);
 	public void removeBoard(int bno);
+	public List<BoardVO> homeData();
 }

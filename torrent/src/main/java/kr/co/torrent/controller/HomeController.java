@@ -1,14 +1,26 @@
 package kr.co.torrent.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import kr.co.torrent.service.BoardService2;
+import kr.co.torrent.vo.BoardVO;
+
 @Controller
 public class HomeController {
-
+	
+	@Autowired
+	private BoardService2 service;
+	
+	
 	@RequestMapping("/auth")
 	public String auth() {
 		System.out.println("asdasdasdasdasdasdsadasdas");
@@ -38,4 +50,19 @@ public class HomeController {
 		return (String)session.getAttribute("user");
 	}
 
+	@RequestMapping("/homeData.json")
+	@ResponseBody
+	public List<BoardVO> homeData(){
+		
+		List<BoardVO> list = service.homeData();
+		for(BoardVO board : list) {
+			System.out.println(board.getContent());
+			
+			String content = board.getContent();
+			board.setContent(content.substring(content.indexOf("<img"),content.indexOf("</p>")));
+			System.out.println(content.substring(content.indexOf("<img"),content.indexOf("</p>")));
+		}
+		
+		return list;
+	}
 }

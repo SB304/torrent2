@@ -39,5 +39,9 @@ public class BoardServiceImpl2 implements BoardService2{
 		mapper.deleteBoard(bno);
 	}
 
+	@Override
+	public List<BoardVO> homeData(){
+		return mapper.selectPopularList();
+	}
 
 }
