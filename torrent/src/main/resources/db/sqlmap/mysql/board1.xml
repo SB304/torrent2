@@ -29,8 +29,11 @@
 		    title, content, id, genre   
 		) values (                       
 		   #{title}, #{content}, #{id}, 1 
-		)                               
+		)    
 	</insert>
+	<select id="selectBno" resultType="int">
+		select max(bno) from tbl_board
+	</select>
 	
 	<update id="updateBoard" parameterType="boardVO">
 		update tbl_board 
@@ -50,7 +53,7 @@
 		select *
 		  from tbl_file
 		 where bno=#{bNo} 
-		   limit 0, 1;
+		   limit 0, 1
 	</select>
 
 	<insert id="insertFile" parameterType="fileVO">

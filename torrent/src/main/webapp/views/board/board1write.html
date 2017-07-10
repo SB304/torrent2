@@ -69,7 +69,7 @@
 <body>
 	<div class="topMenu"></div>
 	<!-- END .header -->
-					<!--  @@@@@@@@@@@ 이부분에 자신의 페이지 코드 작성하시면 됩니다  @@@@@@@@@@-->
+	<!--  @@@@@@@@@@@ 이부분에 자신의 페이지 코드 작성하시면 됩니다  @@@@@@@@@@-->
 
 	<div id="fh5co-main">
 		<div class="container">
@@ -86,11 +86,14 @@
 						</div>
 						<div class="col-md-12">
 							내용
-							<div id="myEditor"></div>
-							<input type="file" id="attachFile" name="attachFile" value='첨부파일'/>
-							<br><br>
+							<form id="fileForm"  enctype="multipart/form-data" >
+								<div id="myEditor"></div>
+								<input type="file" id="attachFile" name="attachFile" value='첨부파일' />
+							</form>
+							<br>
+							<br>
 							<div class="form-group">
-								<button type="submit" class="btn btn-primary">등록</button>
+								<button id="writeBtn" type="submit" class="btn btn-primary">등록</button>
 								<button class="btn">취소</button>
 							</div>
 						</div>
@@ -107,45 +110,50 @@
 	<script>
 		$("div.topMenu").load("/torrent/views/include/topMenu.html");
 		$("div.footer").load("/torrent/views/include/footer.html");
-		
+
 		// summernote editor
 		$(document).ready(function() {
 			$('#myEditor').summernote({
 				onblur : function(e) {
-		            $('#summernote').html($('#myEditor').code());
-			        },
-			    height : 250, // set editor height
-			    minHeight : 100, // set minimum height of editor
-			    maxHeight : null, // set maximum height of editor
-			    lang : 'ko-KR'
+					$('#summernote').html($('#myEditor').code());
+				},
+				height : 250, // set editor height
+				minHeight : 100, // set minimum height of editor
+				maxHeight : null, // set maximum height of editor
+				lang : 'ko-KR'
 			});
 		});
 
 		// 등록
-		$("button[class='btn btn-primary']").click(function() {
-							console.log($("#attachFile").val());
-							console.log($('#myEditor').summernote('code'));
-							console.log( $("input[name='title']").val());
-								$.ajax({
-										url : "/torrent/board1write.json",
-										data : {
-											board:{
-											'title' : $("input[name='title']").val(),
-											'content' : $('#myEditor').summernote('code')
-											}
-										}
-									}).done(function() {
-												swal({
-														title : "등록 완료",
-														type : "warning",
-														confirmButtonColor : "#DC143C",
-														confirmButtonText : "확인"
-														},
-													function() {
-															location.href = "/torrent/views/board/board1.html";
-															});
-												})
-						});
+		$("#writeBtn").click(function() {
+			console.log($("#attachFile").val());
+			console.log($('#myEditor').summernote('code'));
+			console.log($("input[name='title']").val());
+			
+			var fileEle = $("input[name='attachFile']")[0];
+			var fd = new FormData();
+			fd.append("title",$("input[name='title']").val());
+			fd.append("content",$('#myEditor').summernote('code'));
+			for(var i = 0; i<fileEle.files.length;i++){
+				fd.append("attachFile"+i,fileEle.files[i]);
+			}
+			$.ajax({
+				url : "/torrent/board1write.json",
+				data : fd,
+				type : "POST",
+				contentType: false,
+				processData: false
+			}).done(function() {
+				swal({
+					title : "등록 완료",
+					type : "warning",
+					confirmButtonColor : "#DC143C",
+					confirmButtonText : "확인"
+				}, function() {
+					location.href = "/torrent/views/board/board1.html";
+				});
+			});
+		});
 
 		// 취소
 		$("button[class='btn']").click(function() {

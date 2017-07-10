@@ -12,7 +12,7 @@ public interface BoardService {
 	public Map<String, Object> list(PageVO page) ;
 	public List<BoardVO> detail(int bno);
 	public void delete(int bno);
-	public Map<String, Object> insert(BoardVO board, FileVO file);
+	public void insert(BoardVO board, FileVO file);
 	public int update(BoardVO board);
 	public int likeCount(int bno);
 	public int doLike(LikeVO like);

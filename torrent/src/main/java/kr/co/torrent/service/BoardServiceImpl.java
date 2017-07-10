@@ -53,10 +53,7 @@ public class BoardServiceImpl implements BoardService{
 		mapper.deleteBoard(bno);
 	}
 
-	@Override
-	public Map<String, Object> insert(BoardVO board, FileVO file) {
-		return mapper.insertBoard(board, file);
-	}
+	
 
 	@Override
 	public int update(BoardVO board) {
@@ -79,6 +76,19 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public int likeCount(int bno) {
 		return mapper.selectLikeCount(bno);
+	}
+
+	@Transactional
+	@Override
+	public void insert(BoardVO board, FileVO file) {
+		mapper.insertBoard(board);
+		int bno = mapper.selectBno();
+		if(file != null){
+			System.out.println("======");
+			System.out.println(bno);
+			file.setBno(bno);
+			mapper.insertFile(file);
+		}
 	}
 
 }
