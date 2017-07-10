@@ -38,6 +38,10 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.js"></script>
+
+<!-- include summernote css/js-->
+<link href="/torrent/resources/dist/summernote.css" rel="stylesheet">
+<script src="/torrent/resources/dist/summernote.js"></script>
 <!-- sweet -->
 <script src="/torrent/resources/sweet/sweetalert.min.js"></script>
 <link rel="stylesheet" href="/torrent/resources/sweet/sweetalert.css" />
@@ -56,29 +60,30 @@
 					<h2>게시물 수정</h2>
 					<div class="fh5co-spacer fh5co-spacer-sm"></div>
 					<div class="row">
+						<div>
 							<div class="form-group">
-							<script id="list-template" type="text/x-handlebars-template">
-							{{#each.}}
+								<script id="list-template" type="text/x-handlebars-template">
+							{{#board}}
 								<label>제목 </label>
 								<input type="text" name="title"  class="form-control" value={{title}} ><br><Br>
+							<div>
 								<label>내용</label>
-								<textarea name="content" class="form-control" rows="5" cols="70" style="resize:none;">{{content}}</textarea>
-							{{/each}}
+							{{/board}}
 							</script>
 							</div>
-						<br><br>
-						
-						<div style="position:relative; top:20px;"> 
-						<button type="submit" class="btn btn-primary">수정</button>
-						<input type='reset' class="btn" value='재입력' /> 
-						<input type="button" class="btn" value="목록" />
+								<div id="myEditor"></div>
+								<input type="file" id="attachFile" name="attachFile" value='첨부파일' />
+								<div style="position: relative; top: 20px;">
+									<button type="submit" class="btn btn-primary">수정</button>
+									<input type='reset' class="btn" value='재입력' /> <input
+										type="button" class="btn" value="목록" />
+								</div>
 						</div>
+					</div>
 				</div>
 
 			</div>
-
 		</div>
-	</div>
 	</div>
 	<div class="footer"></div>
 
@@ -86,8 +91,20 @@
 	<script>
 		$("div.topMenu").load("/torrent/views/include/topMenu.html");
 		$("div.footer").load("/torrent/views/include/footer.html");
-		
-		
+
+		// summernote editor
+		$(document).ready(function() {
+			$('#myEditor').summernote({
+				onblur : function(e) {
+					$('#summernote').html($('#myEditor').code());
+				},
+				height : 250, // set editor height
+				minHeight : 100, // set minimum height of editor
+				maxHeight : null, // set maximum height of editor
+				lang : 'ko-KR'
+			});
+		});
+
 		// bno 파라미터 얻어오기
 		var getParameters = function(paramName) {
 			var returnValue;
@@ -109,15 +126,21 @@
 
 		// 수정 완료
 		$("button[type='submit']").click(function() {
+			var fileEle = $("input[name='attachFile']")[0];
+			var fd = new FormData();
+			fd.append("title", $("input[name='title']").val());
+			fd.append("content", $('#myEditor').summernote('code'));
+			for (var i = 0; i < fileEle.files.length; i++) {
+				fd.append("attachFile" + i, fileEle.files[i]);
+			}
+
 			if ($("input[name='title']").val() != null) {
 				$.ajax({
 					url : "/torrent/board1update.json",
-					data : {
-						bno : getParameters('bno'),
-						title : $("input[name='title']").val(),
-						content : $("textarea[name='content']").val()
-					}
-
+					data : fd,
+					type : "POST",
+					contentType : false,
+					processData : false
 				}).done(function() {
 					swal({
 						title : "수정 완료",
@@ -130,7 +153,7 @@
 				})
 			} else {
 				swal({
-					title : "수정 완료",
+					title : "수정 내용 재입력 ",
 					type : "success",
 					confirmButtonColor : "#DC143C",
 					confirmButtonText : "확인"
@@ -140,15 +163,16 @@
 
 		// 입력된 내용
 		function makeDetail(result) {
-			console.log(result[0].title);
+			console.log(result.board.content);
 			var source = $("#list-template").html();
 			var template = Handlebars.compile(source);
 			var html = template(result);
 			$(".form-group").html(html);
+			$("#myEditor.p").append(result.board.content);
 		}
 
 		function detail() {
-			
+
 			$.ajax({
 				url : "/torrent/board1detail.json",
 				data : {

@@ -44,8 +44,14 @@ public class BoardServiceImpl implements BoardService{
 	}
 	
 	@Override
-	public List<BoardVO> detail(int bno) {
-		return mapper.selectBoardByNo(bno);
+	public Map<String, Object> detail(int bno) {
+		BoardVO  board = mapper.selectBoardByNo(bno);
+		FileVO file = mapper.selectFileByNo(bno);
+		
+		Map<String, Object> result = new HashMap<>();
+		result.put("board", board);
+		result.put("file", file);
+		return result;
 	}
 	
 	@Override

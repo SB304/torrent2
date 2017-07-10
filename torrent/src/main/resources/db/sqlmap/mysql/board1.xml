@@ -49,11 +49,15 @@
 	</delete>
 
 <!-- file -->
-	<select id="selectFile" parameterType="int" resultType="fileVO">
-		select *
+	<select id="selectFileByNo" parameterType="int" resultType="fileVO">
+		select fno,
+	    	   bno,
+	           oriName,
+	           sysName,
+	           path,
+	           size
 		  from tbl_file
 		 where bno=#{bNo} 
-		   limit 0, 1
 	</select>
 
 	<insert id="insertFile" parameterType="fileVO">
@@ -64,26 +68,20 @@
 		)                               
 	</insert>
 	
-	<select id="selectFileList" parameterType="int" resultType="fileVO">
-		select *
-		  from tbl_file
-		 where bno=#{bno} 
-	</select>
+<!--    <update id="updateFile" parameterType="fileVO"> -->
+<!--     	update tbl_file -->
+<!--     	   set path = #{path}, -->
+<!--     	   	   size = #{size}, -->
+<!--     	   	   oriName = #{oriName}, -->
+<!--     	   	   sysName = #{sysName} -->
+<!--     	 where bno=#{bno} -->
+<!--     </update> -->
 	
-   <update id="updateFile" parameterType="fileVO">
-    	update tbl_file
-    	   set path = #{path},
-    	   	   size = #{size},
-    	   	   oriName = #{oriName},
-    	   	   sysName = #{sysName}
-    	 where bno=#{bno}
-    </update>
-	
-	<delete id="deleteFile" parameterType="int">
-	    delete
-	      from tbl_file
-	     where bno=#{bno} 
-	</delete>
+<!-- 	<delete id="deleteFile" parameterType="int"> -->
+<!-- 	    delete -->
+<!-- 	      from tbl_file -->
+<!-- 	     where bno=#{bno}  -->
+<!-- 	</delete> -->
 
 <!-- like -->
 	<select id="selectLikeCount" parameterType="int" resultType="int">

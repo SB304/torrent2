@@ -10,7 +10,8 @@ import kr.co.torrent.vo.PageVO;
 public interface BoardMapper1 {
 	public int selectBoardCount(PageVO page);
 	public List<BoardVO> selectBoard(PageVO page);
-	public List<BoardVO> selectBoardByNo(int bno);
+	public BoardVO selectBoardByNo(int bno);
+	public FileVO selectFileByNo(int bno);
 	public void deleteBoard(int bno);
 	public int insertBoard(BoardVO board);
 	public void insertFile(FileVO file);

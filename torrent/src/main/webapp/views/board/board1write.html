@@ -110,6 +110,11 @@
 	<script>
 		$("div.topMenu").load("/torrent/views/include/topMenu.html");
 		$("div.footer").load("/torrent/views/include/footer.html");
+		
+		// 태그 제거 함수
+		function removeTag( html ) {
+			return html.replace(/(<([^>]+)>)/gi, "");
+		}
 
 		// summernote editor
 		$(document).ready(function() {
@@ -120,20 +125,43 @@
 				height : 250, // set editor height
 				minHeight : 100, // set minimum height of editor
 				maxHeight : null, // set maximum height of editor
-				lang : 'ko-KR'
+				lang : 'ko-KR',
+				callbacks:{
+					onImageUpload:function(files, editor, welEditable) {
+					      sendFile(files[0],editor,welEditable); 
+				    } 
+				}
 			});
 		});
+		
+		
+		// 이미지 등록
+		function sendFile(file,editor,welEditable) {
+		  data = new FormData();
+		  data.append("file", file);
+		            $.ajax({
+		            data: data,
+		            type: "POST",
+		                    // 이미지 업로드하는 파일 path 
+		            cache: false,
+		            contentType: false,
+		            processData: false
+		        });
+		  }
 
 		// 등록
 		$("#writeBtn").click(function() {
 			console.log($("#attachFile").val());
-			console.log($('#myEditor').summernote('code'));
+			var contentText = $('#myEditor').summernote('code');
+			var contentParse = removeTag(contentText);
+			console.log(contentParse);
+			
 			console.log($("input[name='title']").val());
 			
 			var fileEle = $("input[name='attachFile']")[0];
 			var fd = new FormData();
 			fd.append("title",$("input[name='title']").val());
-			fd.append("content",$('#myEditor').summernote('code'));
+			fd.append("content",contentParse);
 			for(var i = 0; i<fileEle.files.length;i++){
 				fd.append("attachFile"+i,fileEle.files[i]);
 			}

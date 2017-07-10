@@ -86,17 +86,57 @@
 			</div>
 			<div id="pageTable"></div>
 
+
+			<script id="boardDetail-template" type="text/x-handlebars-template">
+					<thead>
+						<tr>
+							<td>{{bno}}</td>
+							<td>{{title}}</td>
+							<td>{{prettifyDate regDate}}</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td colspan="3">여기는 torrent 파일 받는 링크</td>
+						</tr>
+						<tr>
+							<td colspan="3">여기는 content <br> {{content}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</script>
+	
+	
+	
 			<script id="list-template" type="text/x-handlebars-template">
-				{{#each .}}
-							<div style="position:relative; text-align:center; width:80%; right:100px;">
-							<label>{{title}}</label>
-							<p  style="position:relative; float:right;">{{prettyDate regDate}}</p>
-							</div>
-							<div style="text-align:center; margin-top:20px;">{{content}}</div>
-				{{/each}}
+				<table class="table">
+					<thead>
+						<tr>
+							{{#board}}
+							<th>{{bno}}</th>
+							<th>{{title}}</th>
+							<th>{{prettyDate regDate}}</th>
+							{{/board}}
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							{{#file}}
+							<td  colspan="3"><a href="/torrent/download?path={{path}}&sName={{sysName}}&dName={{oriName}}">
+								{{oriName}}</a>({{size}} byte)</td>
+							{{/file}}
+						</tr>
+						<tr>
+							{{#board}}
+							<td colspan="3">{{content}}</td>
+							{{/board}}
+						</tr>
+					</tbody>
+				</table>
 			</script>
 			
-			
+				
+				
 			<div style="position:relative; top:20px;"> 
 				<button class="btn btn-primary">수정</button>	
 				<button class="btn">삭제</button>	
@@ -134,8 +174,11 @@
 			}
 		};
 		
-// 		핸들바
+// 		핸들바(board)
+
 		function makeDetail(result) {
+		console.log(result.board);
+		console.log(result.file);
 			var source = $("#list-template").html();
 			var template = Handlebars.compile(source);
 			var html = template(result);

@@ -41,7 +41,7 @@ public class BoardController1 {
 
 	// 상세보기
 	@RequestMapping("/board1detail.json")
-	public List<BoardVO> detail(int bno) {
+	public Map<String, Object> detail(int bno) {
 		return boardService.detail(bno);
 	}
 
