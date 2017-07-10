@@ -27,12 +27,25 @@
 	     where bno = #{bno} 
 	</delete>
 	
-	<select id="selectBoard" parameterType="int" resultType ="boardVO">
+<!-- 	<select id="selectBoard" parameterType="pageVO" resultType="boardVO">
+    	select *
+    	  from ( select rownum as rnum, aa.*
+    	           from (select *  
+    	                   from tbl_board 
+    	                   order by no desc 
+    	                ) as aa 
+    	       ) as bb 
+    	 where genre = #{genre} and rownum between #{begin} and #{end}
+    			
+    </select>  -->
+	
+	
+	<!-- <select id="selectBoard" parameterType="int" resultType ="boardVO">
 	    select *         
 		  from tbl_board 
 		  where genre = #{genre}
 		 order by bno desc
-	</select>
+	</select> -->
 	
 	<select id="selectBoardByNo" parameterType="int" 
 	                             resultType="boardVO">
@@ -41,6 +54,10 @@
 		 where bno = #{bno}
 	</select>
 	
+	<select id="selectBoardCount" parameterType="pageVO" resultType="int">
+    	select count(*)
+          from tbl_board 
+    </select> 
 	
 	<!-- ################################# -->
     <!-- 파일 부분 시작 -->	

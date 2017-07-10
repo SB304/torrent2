@@ -32,7 +32,26 @@
 		<script src="/torrent/resources/js/main.js"></script>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
    		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	 <style>
+			table {
+			    border-collapse: collapse;
+			    width: 100%;
+			}
+			
+			th, td {
+			    text-align: left;
+			    padding: 8px;
+			}
+			
+			tr:nth-child(even){background-color: #f4f4f4}
+			
+			th {
+			    background-color: #ff9a9a;
+			    color: white;
+			}
+	</style>
 	</head>
+
 	<body>
 	<div class="topMenu"></div>
 	<!-- END .header -->
@@ -58,17 +77,20 @@
 						</table>
 					</form>
 				</div>
-				<a id="recommendBtn" href="javascript:recommendUpDown();"></a>
+				
+		  <!-- 추천수 -->
+		  	<div id="recommendCount">
+			  	<a id="recommendBtn" href="javascript:recommendUpDown();">
+			  	<img id="likeBtn" src="/torrent/resources/images/unlike.png"/>
+			  	</a>
+			  	<p style="text-align: center;" id ="LikeCount"></p>
+		  	</div>
+		  		
 				<!-- 댓글목록 표시 -->
 				<div id="commentList">
 				
 				</div>	
 		  
-		  <!-- 추천수 -->
-		  추천수 :
-		  	<div id="recommendCount">
-		  	
-		  	</div>
 
 		</div>
 		</div>
@@ -88,7 +110,7 @@
 		console.log(board);
 		console.log(file);
 		
-		var html ='<table>';
+		var html ='<table class="w3-table-all w3-xlarge">';
 			html +='<tr><td>번호</td><td>'+board.bno+'<td/></tr>';		
 			html +='<tr><td>제목</td><td>'+board.title+'<td/></tr>'		
 			html +='<tr><td>글쓴이</td><td>'+board.id+'<td/></tr>'		
@@ -142,14 +164,14 @@
 			}).done(showLikeCount);//권장하는 형태
 		}
 	function showLikeCount(result){
-		$("#LikeCount").html(result);
+		$("#LikeCount").attr("src",result);
 	}
 	function checkLike(){
 		$.ajax({
 			url : "checkLike.json",
 			data :{"bno":$bno},
 		}).done(function(result){
-			$("#likeBtn").html(result);
+			$("#likeBtn").attr("src",result);
 		});
 	}
 	checkLike();
@@ -159,19 +181,19 @@
 			alert("로그인하세요")
 			return ;
 		} */
-		if($("#LikeBtn").html()=="추천"){
+		if($("#LikeBtn").attr("src")=="/torrent/resources/images/unlike.png"){
 			$.ajax({
 				url : "insertLike.json",
 				data :{"bno":$bno},
 			}).done(showLikeCount);
-			$("#LikeBtn").html("추천취소");
+			$("#LikeBtn").attr("src","/torrent/resources/images/like.png");
 		}
 		else{
 			$.ajax({
 				url : "deleteLike.json",
 				data :{"bno":$bno},
 			}).done(showLikeCount);
-			$("#LikeBtn").html("추천");
+			$("#LikeBtn").attr("src","/torrent/resources/images/unlike.png");
 		}
 	}
 		//ajax를 이용해서 댓글목록을 조회

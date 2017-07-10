@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import kr.co.torrent.mapper.BoardMapper3;
+import kr.co.torrent.repository.vo.PageResultVO;
+import kr.co.torrent.repository.vo.PageVO;
 import kr.co.torrent.vo.ReplyVO;
 import kr.co.torrent.vo.FileVO;
 import kr.co.torrent.vo.LikeVO;
@@ -35,8 +37,22 @@ public class BoardServiceImpl3 implements BoardService3 {
 	}
 
 	@Override
-	public List<BoardVO> select(int genre) throws Exception {
-		return mapper.selectBoard(genre);
+	public Map<String, Object> select(PageVO page) throws Exception {
+		
+		System.out.println("page begin"+page.getBegin());
+		System.out.println("page end"+page.getEnd());
+		System.out.println("page genre"+page.getGenre());
+		
+		List<BoardVO> list = mapper.selectBoard(page);
+		int count = mapper.selectBoardCount(page);
+		int pageNo = page.getPageNo();
+		
+		//두개를 묶기위해 VO나 Map을 이용하는게 적절..
+		Map<String, Object> map = new HashMap<>();
+		map.put("list", list);
+		map.put("pageResult", new PageResultVO(pageNo, count));
+		return map;
+	
 	}
 	@Override
 	public Map<String, Object> detail(int bno) throws Exception {

@@ -6,6 +6,7 @@ import java.util.Map;
 import kr.co.torrent.vo.ReplyVO;
 import kr.co.torrent.vo.FileVO;
 import kr.co.torrent.vo.LikeVO;
+import kr.co.torrent.repository.vo.PageVO;
 import kr.co.torrent.vo.BoardVO;
 
 public interface BoardService3 {
@@ -14,7 +15,7 @@ public interface BoardService3 {
 	public void delete(int no) throws Exception;
 	public void update(BoardVO board) throws Exception;
 	public void insert(BoardVO board, FileVO file) throws Exception;
-	public List<BoardVO> select(int genre) throws Exception; 
+	public Map<String, Object> select(PageVO page) throws Exception; 
 	public Map<String, Object> detail(int no) throws Exception;
 	/////////댓글 서비스//////////////////////
 	public void deleteComment(int no) throws Exception;

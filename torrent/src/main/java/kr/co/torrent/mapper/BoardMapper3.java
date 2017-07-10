@@ -5,15 +5,16 @@ import java.util.List;
 import kr.co.torrent.vo.ReplyVO;
 import kr.co.torrent.vo.FileVO;
 import kr.co.torrent.vo.LikeVO;
+import kr.co.torrent.repository.vo.PageVO;
 import kr.co.torrent.vo.BoardVO;
 
 public interface BoardMapper3 {
 	public int insertBoard(BoardVO board) throws Exception;
 	public int updateBoard(BoardVO board) throws Exception;
 	public int deleteBoard(int no) throws Exception;
-	public List<BoardVO> selectBoard(int genre) throws Exception;
+	public List<BoardVO> selectBoard(PageVO search) throws Exception;
 	public BoardVO selectBoardByNo(int no) throws Exception;
-
+	public int selectBoardCount(PageVO search) throws Exception;
 	// 파일 작업
 	public void insertFile(FileVO fileVO) throws Exception;
 	public FileVO selectFileByNo(int fileNo) throws Exception;

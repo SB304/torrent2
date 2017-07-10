@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.co.torrent.repository.vo.PageVO;
 import kr.co.torrent.service.BoardService3;
 import kr.co.torrent.service.BoardServiceImpl3;
 import kr.co.torrent.vo.ReplyVO;
@@ -82,12 +83,14 @@ public class BoardController3 {
 	}
 
 	@RequestMapping("/list.json")
-	public List<BoardVO> list(
-			@RequestParam(value="pageNo", defaultValue="1")int pageNo,int genre) 
+	public Map<String, Object> list(PageVO page) 
 					throws Exception {
-		System.out.println("pageNo = " + pageNo);
-		List<BoardVO> list = boardService3.select(genre);
-		return list;
+		System.out.println("pageNo: "+ page.getPageNo());
+		System.out.println("genre :"+page.getGenre());
+		
+		
+		Map<String, Object> map = boardService3.select(page);
+		return map;
 	}
 
 	@RequestMapping("/update.json")
@@ -105,6 +108,10 @@ public class BoardController3 {
 	public String fileUpload(MultipartHttpServletRequest mRequest) throws Exception {
 		String uploadDir = servletContext.getRealPath("/tempImgUpload");
 		System.out.println(uploadDir);
+		File f = new File(uploadDir);
+		if (!f.exists()) {
+			f.mkdirs();
+		}
 		//attachFile1, 2... 반환을 Iterator로 반환함(기존 Eneu???)
 		Iterator<String> iter = mRequest.getFileNames();
 		String sendPath = "";
@@ -213,10 +220,10 @@ public class BoardController3 {
 	@RequestMapping("/checkLike.json")
 	public String checkRecommendAjax(LikeVO recommend) throws Exception {
 		LikeVO check = boardService3.checkRecommend(recommend);
-		String result = "추천";
+		String result = "/torrent/resources/images/unlike.png";
 		if (check != null) {
 			System.out.println("이미추천했지롱");
-			result = "추천취소";
+			result = "/torrent/resources/images/like.png";
 		}
 		return result;
 	}

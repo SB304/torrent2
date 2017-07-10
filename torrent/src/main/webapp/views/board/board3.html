@@ -37,7 +37,24 @@
    		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
    		<!-- 핸들바 -->
    		<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.js"></script>
-   		
+   		<style>
+			table {
+			    border-collapse: collapse;
+			    width: 100%;
+			}
+			
+			th, td {
+			    text-align: left;
+			    padding: 8px;
+			}
+			
+			tr:nth-child(even){background-color: #f4f4f4}
+			
+			th {
+			    background-color: #ff9a9a;
+			    color: white;
+			}
+	</style>
 	</head>
 	<body>
 	<div class="topMenu"></div>
@@ -54,9 +71,9 @@
 				<div id="board-list-div">
 				</div >
 				<div>
-				페이징... 	
-				<button id="writeBtn" class ="btn btn-primary" type="button">글쓰기</button> 
+					<ul class="pagination"></ul>	
 				</div>
+				<button id="writeBtn" class ="btn btn-primary" type="button">글쓰기</button> 
 
 		</div>
 		</div>
@@ -124,7 +141,7 @@ $("#writeBtn").on("click",function(){
 			$('#board-list-div').append(html);
 			}
 	}
-	$(document).ready(function(){
+/* 	$(document).ready(function(){
 		console.log("문서로딩완료했을때 리스트ajax호출..")
 			$.ajax({
 				url : "list.json",//url이 맨 마지막만 바뀌면 그냥써두됨
@@ -132,7 +149,73 @@ $("#writeBtn").on("click",function(){
 				dataType:"json"
 			}).done(makeBoardList);//권장하는 형태
 			console.log("리스트 가져왔다?")
-	});
+	}); */
+	
+	//페이지 리스트
+	function makePageList(data) {
+		var html = "";
+		if (data.count != 0) {
+			var clz = "";
+			if (data.prev == false) {
+				clz = "disabled";
+			}
+			html += '<li class="' + clz + '">';
+			
+			var fn = "";
+			
+			if (data.prev == true) {
+				fn = "javascript:pageList(" + (data.beginPage - 1) + ");";
+			}
+			html += '<a href="' + fn + '" aria-label="Previous">';
+			html += '    <span aria-hidden="true">&laquo;</span>';
+			html += '</a>';
+		    html += '</li>';
+			
+		    for (var i = data.beginPage; i <= data.endPage; i++) {
+		    	if (i == data.pageNo) {
+				    html += '<li class="active"><a href="#1">' + i + '</a></li>';
+		    	}
+		    	else {
+		    		html += '<li><a href="javascript:pageList(' + i + ');">' + i + '</a></li>';
+		    	}
+		    }
+		    
+			clz = "";
+			if (data.next == false) {
+				clz = "disabled";
+			}
+			html += '<li class="' + clz + '">';
+			
+			fn = "";
+			
+			if (data.next == true) {
+				fn = "javascript:pageList(" + (data.endPage + 1) + ");";
+			}
+			html += '<a href="' + fn + '" aria-label="Next">';
+			html += '    <span aria-hidden="true">&raquo;</span>';
+			html += '</a>';
+		    html += '</li>';
+		}
+		
+		$("div > ul.pagination").html(html);
+	}
+
+	function pageList(pageNo) {
+		if (pageNo === undefined) {
+			pageNo = 1;
+		}
+		$.ajax({
+			url: "list.json",
+			data: {genre:3,
+				pageNo: pageNo},
+			dataType: "json"
+		})
+		.done(makePageList);
+	}
+	
+	// 페이지 로딩시 목록 조회 ajax 호출
+	pageList();
+	
 	</script>
 	</body>
 </html>
