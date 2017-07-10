@@ -12,12 +12,17 @@
 
 	<context:component-scan base-package="kr.co.torrent" />
 	
- 	<mvc:interceptors>
-		<mvc:interceptor>
-			<mvc:mapping path="/" />
-			<bean class="kr.co.torrent.interceptor.AuthInterceptor" />
-		</mvc:interceptor>
-	</mvc:interceptors>
+	<mvc:resources location="classpath:/resources/" mapping="/resources/**">
+	</mvc:resources>
+	
+<!--  	<mvc:interceptors> -->
+<!-- 		<mvc:interceptor> -->
+<!-- 			<mvc:mapping path="/**" /> -->
+<!-- 			<mvc:exclude-mapping path="/views/**"/> -->
+<!-- 			<mvc:exclude-mapping path="/resources/**"/> -->
+<!-- 			<bean class="kr.co.torrent.interceptor.AuthInterceptor" /> -->
+<!-- 		</mvc:interceptor> -->
+<!-- 	</mvc:interceptors> -->
 	
 	<mvc:annotation-driven>
 		<mvc:message-converters>
