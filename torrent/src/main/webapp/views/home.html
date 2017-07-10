@@ -65,10 +65,10 @@
 	<script src="/torrent/resources/js/main.js"></script>
 	<script id="homeData-template" type="text/x-handlebars-template">
 		{{#each .}}
-			<div class="item">
+			<div class="item" style="float:left;">
 				<div class="animate-box">
-					<a href="/torrent/views/board/board3detail?bno={{bno}}"  >
-						<img src="http://localhost:8000/torrent/tempImgUpload/mlec-5b7f9aa5-3a73-45e2-9926-2139c06842f5.jpg">
+					<a href="/torrent/views/board/board3detail.html?{{bno}}"  >
+						<img src="{{content}}">
 					</a>
 				</div>
 				<div class="fh5co-desc">{{title}}</div>

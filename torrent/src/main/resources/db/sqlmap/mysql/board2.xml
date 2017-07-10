@@ -8,7 +8,7 @@
 		from tbl_board
 		where genre = 3
 		order by viewCnt ,bno desc 
-		limit 10
+		
 	</select>
 	<insert id="insertBoard">
 		insert into tbl_board
