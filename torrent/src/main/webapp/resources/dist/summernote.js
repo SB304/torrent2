@@ -6744,7 +6744,7 @@
         ['color', ['color']],
         ['para', ['ul', 'ol', 'paragraph']],
         ['table', ['table']],
-        ['insert', ['link', 'picture', 'video']],
+        ['insert', ['link'/*, 'picture', 'video'*/]],
         ['view', ['fullscreen', 'codeview', 'help']]
       ],
 
@@ -6763,7 +6763,7 @@
           ['font', ['bold', 'underline', 'clear']],
           ['para', ['ul', 'paragraph']],
           ['table', ['table']],
-          ['insert', ['link', 'picture']]
+//          ['insert', ['link', 'picture']]
         ]
       },
 
@@ -6920,7 +6920,7 @@
         'minus': 'note-icon-minus',
         'orderedlist': 'note-icon-orderedlist',
         'pencil': 'note-icon-pencil',
-        'picture': 'note-icon-picture',
+//        'picture': 'note-icon-picture',
         'question': 'note-icon-question',
         'redo': 'note-icon-redo',
         'square': 'note-icon-square',
@@ -6933,7 +6933,7 @@
         'underline': 'note-icon-underline',
         'undo': 'note-icon-undo',
         'unorderedlist': 'note-icon-unorderedlist',
-        'video': 'note-icon-video'
+//        'video': 'note-icon-video'
       }
     }
   });
