@@ -1,7 +1,5 @@
 package kr.co.torrent.vo;
 
-import org.springframework.stereotype.Component;
-
 public class FileVO {
 	private int fno;
 	private int bno;
@@ -45,7 +43,5 @@ public class FileVO {
 	public void setSize(long size) {
 		this.size = size;
 	}
-	
-
 	
 }

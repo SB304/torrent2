@@ -1,7 +1,7 @@
 package kr.co.torrent.vo;
 
 public class PageVO {
-	private int pageNo;
+	private int pageNo = 1;
 
 	public int getBegin() {
 		return (pageNo -1) * 10 + 1;

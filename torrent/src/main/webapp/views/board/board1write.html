@@ -111,9 +111,9 @@
 		// summernote editor
 		$(document).ready(function() {
 			$('#myEditor').summernote({
-// 				onblur : function(e) {
-// 		            $('#summernote').html($('#myEditor').code());
-// 			        },
+				onblur : function(e) {
+		            $('#summernote').html($('#myEditor').code());
+			        },
 			    height : 250, // set editor height
 			    minHeight : 100, // set minimum height of editor
 			    maxHeight : null, // set maximum height of editor
@@ -122,14 +122,17 @@
 		});
 
 		// 등록
-		$("button[class='btn btn-primary']")
-				.click(function() {
-						if ($("input[name='title']").val() != null || $('#myEditor').summernote('code').val()) {
+		$("button[class='btn btn-primary']").click(function() {
+							console.log($("#attachFile").val());
+							console.log($('#myEditor').summernote('code'));
+							console.log( $("input[name='title']").val());
 								$.ajax({
 										url : "/torrent/board1write.json",
 										data : {
-											"title" : $("input[name='title']").val(),
-											"content" : $('#myEditor').summernote('code')
+											board:{
+											'title' : $("input[name='title']").val(),
+											'content' : $('#myEditor').summernote('code')
+											}
 										}
 									}).done(function() {
 												swal({
@@ -142,9 +145,6 @@
 															location.href = "/torrent/views/board/board1.html";
 															});
 												})
-							} else {
-								swal("입력 값 오류", "#DC143C", "확인", "warning");
-							}
 						});
 
 		// 취소

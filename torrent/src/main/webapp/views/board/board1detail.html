@@ -41,6 +41,19 @@
 <!-- sweet -->
 <script src="/torrent/resources/sweet/sweetalert.min.js"></script>
 <link rel="stylesheet" href="/torrent/resources/sweet/sweetalert.css"/>
+<style>
+	#hit {
+		font-size : 10px;
+		padding-right: 10px;
+		width: 60px;
+		height: 40px;
+	}
+	
+	#likearea{
+		position: relative;
+		float: right;
+	}
+</style>
 </head>
 
 	<!-- 날짜 표기 설정 -->
@@ -66,8 +79,12 @@
 					<div class="row">
 							<div class="form-group">
 			<!--  @@@@@@@@@@@ 이부분에 자신의 페이지 코드 작성하시면 됩니다  @@@@@@@@@@-->
-
-				<div id="pageTable">
+				
+			<div id="likearea">
+				추천 <span id="likeCount"></span>개
+				<button id='hit' class="btn btn-primary btn-lg" onclick='likeBtnClick();'>추천</button>
+			</div>
+			<div id="pageTable"></div>
 
 			<script id="list-template" type="text/x-handlebars-template">
 				{{#each .}}
@@ -78,13 +95,14 @@
 							<div style="text-align:center; margin-top:20px;">{{content}}</div>
 				{{/each}}
 			</script>
+			
+			
 			<div style="position:relative; top:20px;"> 
-			<button class="btn btn-primary">수정</button>	
-			<button class="btn">삭제</button>	
-			<button class="btn">목록</button>	
-
+				<button class="btn btn-primary">수정</button>	
+				<button class="btn">삭제</button>	
+				<button class="btn">목록</button>	
 			</div>
-			</div>
+			
 			</div>
 			</div>
 			</div>
@@ -115,7 +133,6 @@
 				}
 			}
 		};
-		console.log(getParameters('bno'));
 		
 // 		핸들바
 		function makeDetail(result) {
@@ -136,12 +153,12 @@
 		detail();
 		
 		// 수정
-		$("button:eq(0)").click(function () {
+		$("button:eq(1)").click(function () {
 			location.href="/torrent/views/board/board1update.html?bno=" + getParameters('bno'); 
 		});
 		
 		// 삭제
-		$("button:eq(1)").click(function () {
+		$("button:eq(2)").click(function () {
 			$.ajax({
 				url: "/torrent/board1delete.json",
 				data: {
@@ -162,9 +179,55 @@
 		});
 		
 		// 목록이동
-		$("button:eq(2)").click(function () {
+		$("button:eq(3)").click(function () {
 			location.href="/torrent/views/board/board1.html";
 		});
+		
+		// 추천 클릭
+		function likeBtnClick(bno, id) {
+			$.ajax({
+				url : "/torrent/board1like.json",
+				data : {
+					bno : getParameters('bno'),
+					id : 'user1'
+				}
+			}).done(updateLike);
+		}
+		
+		function updateLike(result) {
+			$("span#likeCount").html(result);
+		}
+		
+		// 추천 수 뿌리기
+		function likecount(bno) {
+			$.ajax({
+				url : "/torrent/board1likecount.json",
+				data : {
+					bno : getParameters('bno'),
+				}
+			}).done(function(result){
+				$("#likeCount").text(result);
+			});
+		}
+		likecount();
+		
+// 		function makeRecommend(no) {
+// 			$.ajax({
+// 				url : "/mini2/board/setRecomCount.do",
+// 				data : {
+// 					bno : bno
+// 				},
+// 			}).done(
+// 					function(result) {
+// 						var html = "";
+// 						var testId = "a";
+// 						html += "추천 수 : <span id='recommendCount'>" + result
+// 								+ "</span>개"
+// 								+ "<button id='hit' onclick='recomBtnClick(" + no
+// 								+ ", \"" + userId + "\");'>추천</button>";
+// 						$("div#recomForm").html(html);
+// 					});
+// 		}
 	</script>
 </body>
 

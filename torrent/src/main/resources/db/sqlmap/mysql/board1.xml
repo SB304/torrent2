@@ -3,12 +3,13 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.torrent.mapper.BoardMapper1">
 
+<!-- board -->
 	<select id="selectBoard" resultType="boardVO">
 		select *
 	 	  from tbl_board
 	 	  where genre = 1
 	 	  order by bno desc
-	 	  limit  ${begin}, ${end}
+	 	  limit  ${begin-1}, 10
 	</select>
 	
 	<select id="selectBoardCount" parameterType="pageVO" resultType="int">
@@ -24,13 +25,10 @@
 	</select>
 	
 	<insert id="insertBoard" parameterType="boardVO">
-		<selectKey keyProperty="no" resultType="boardVO" order="BEFORE">
-			select max(bno)+1 from tbl_board
-		</selectKey>
 	    insert into tbl_board(           
-		    bno, title, content, id, genre   
+		    title, content, id, genre   
 		) values (                       
-		    #{bno}, #{title}, #{content}, #{id}, 1 
+		   #{title}, #{content}, #{id}, 1 
 		)                               
 	</insert>
 	
@@ -47,7 +45,44 @@
 	     where bno = #{bno} 
 	</delete>
 
+<!-- file -->
+	<select id="selectFile" parameterType="int" resultType="fileVO">
+		select *
+		  from tbl_file
+		 where bno=#{bNo} 
+		   limit 0, 1;
+	</select>
 
+	<insert id="insertFile" parameterType="fileVO">
+	    insert into tbl_file(           
+		   path, oriName, sysName, size, bno
+		) values (                       
+		     #{path}, #{oriName}, #{sysName}, #{size} , #{bno}
+		)                               
+	</insert>
+	
+	<select id="selectFileList" parameterType="int" resultType="fileVO">
+		select *
+		  from tbl_file
+		 where bno=#{bno} 
+	</select>
+	
+   <update id="updateFile" parameterType="fileVO">
+    	update tbl_file
+    	   set path = #{path},
+    	   	   size = #{size},
+    	   	   oriName = #{oriName},
+    	   	   sysName = #{sysName}
+    	 where bno=#{bno}
+    </update>
+	
+	<delete id="deleteFile" parameterType="int">
+	    delete
+	      from tbl_file
+	     where bno=#{bno} 
+	</delete>
+
+<!-- like -->
 	<select id="selectLikeCount" parameterType="int" resultType="int">
 		select count(*)
 		  from tbl_like
