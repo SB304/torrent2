@@ -15,6 +15,8 @@ public interface BoardMapper3 {
 	public List<BoardVO> selectBoard(PageVO search) throws Exception;
 	public BoardVO selectBoardByNo(int no) throws Exception;
 	public int selectBoardCount(PageVO search) throws Exception;
+	public void viewCntUp(int bno) throws Exception;
+
 	// 파일 작업
 	public void insertFile(FileVO fileVO) throws Exception;
 	public FileVO selectFileByNo(int fileNo) throws Exception;

@@ -74,13 +74,16 @@ public class BoardServiceImpl3 implements BoardService3 {
 			mapper.insertFile(file);
 		}
 	}
-
 	@Override
 	@Transactional(rollbackFor=Exception.class)
-	public void delete(int no) throws Exception {
-		mapper.deleteBoard(no);
+	public void delete(int bno) throws Exception {
+		System.out.println("지우러 들어옴..");
+		mapper.deleteBoard(bno);
 	}
 
+	public void viewCntUP(int bno) throws Exception{
+		mapper.viewCntUp(bno);
+	}
 	////////////// 댓글///////////////////////////
 	@Override
 	@Transactional(rollbackFor=Exception.class)
@@ -113,8 +116,8 @@ public class BoardServiceImpl3 implements BoardService3 {
 	}
 
 	@Override
-	public int countRecommend(int no) throws Exception {
-		return mapper.countLike(no);
+	public int countRecommend(int bno) throws Exception {
+		return mapper.countLike(bno);
 	}
 
 	@Override

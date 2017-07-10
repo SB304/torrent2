@@ -11,7 +11,7 @@
 		<meta name="author" content="FREEHTML5.CO" />
 		<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 		<link rel="shortcut icon" href="favicon.ico">
-		<link rel="stylesheet" href="/torrent/resources/bootstrap/css/bootstrap.min.css">
+<!-- 		<link rel="stylesheet" href="/torrent/resources/bootstrap/css/bootstrap.min.css"> -->
 		<!-- Google Webfonts -->
 		<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,100,500' rel='stylesheet' type='text/css'>
 		<link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
@@ -30,8 +30,12 @@
 		<script src="/torrent/resources/js/jquery.magnific-popup.min.js"></script>
 		<script src="/torrent/resources/js/salvattore.min.js"></script>
 		<script src="/torrent/resources/js/main.js"></script>
+		<script src="/torrent/resources/js/torrent.js"></script>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
    		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+   		
+   		<script src="/torrent/resources/sweet/sweetalert.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="/torrent/resources/sweet/sweetalert.css"/>ㄴ
 	 <style>
 			table {
 			    border-collapse: collapse;
@@ -55,7 +59,7 @@
 	<body>
 	<div class="topMenu"></div>
 	<!-- END .header -->
-<div id="fh5co-main">
+	<div id="fh5co-main">
 		<div class="container">
 		<div class="row">
 		<div class="col-md-10 col-md-offset-1">
@@ -64,32 +68,32 @@
 				<div id="board-detail-div">
 				</div >
 				
+			  <!-- 추천수 -->
+			  	<div id="recommendCount">
+				  	<a id="recommendBtn" href="javascript:LikeUpDown();">
+				  	<img id="likeBtn" src="/torrent/resources/images/unlike.png"/>
+				  	</a>
+				  	<p id ="LikeCount"></p>
+			  	</div>
 				
 				
 				<div id="comment">
 					<form id = "rForm" method="post" action="commentRegist.do">
-						<table width="70%">
+						<table width="100%">
 						<tr>
 							<td><input type="text" name="userId"/></td>
 							<td><textarea name="content" rows="2" cols="60"></textarea></td>
-							<td><input type="submit" value="등록" /></td>
+							<td><input class="btn btn-defualt" type="submit" value="등록" /></td>
 						</tr>	
 						</table>
 					</form>
 				</div>
-				
-		  <!-- 추천수 -->
-		  	<div id="recommendCount">
-			  	<a id="recommendBtn" href="javascript:recommendUpDown();">
-			  	<img id="likeBtn" src="/torrent/resources/images/unlike.png"/>
-			  	</a>
-			  	<p style="text-align: center;" id ="LikeCount"></p>
-		  	</div>
 		  		
 				<!-- 댓글목록 표시 -->
+			
 				<div id="commentList">
-				
 				</div>	
+				
 		  
 
 		</div>
@@ -110,13 +114,18 @@
 		console.log(board);
 		console.log(file);
 		
+		var dateObj = new Date(board.regDate);
+		var year = dateObj.getFullYear();
+		var month = dateObj.getMonth() + 1;
+		var date = dateObj.getDate();
+		var prettyDate =  year + "-" + month + "-" + date;
+		
 		var html ='<table class="w3-table-all w3-xlarge">';
-			html +='<tr><td>번호</td><td>'+board.bno+'<td/></tr>';		
-			html +='<tr><td>제목</td><td>'+board.title+'<td/></tr>'		
-			html +='<tr><td>글쓴이</td><td>'+board.id+'<td/></tr>'		
-			html +='<tr><td>내용</td><td>'+board.content+'<td/></tr>'		
-			html +='<tr><td>등록일</td><td>'+board.regDate+'</td></tr>'		
-			html +='<tr><td>첨부파일</td><td>'
+			html +='<tr><td>#'+board.bno+'</td><td colspan="2">'+board.title+'<td/></tr>';		
+			html +='<tr><td>작성자</td><td colspan="2">'+board.id+'<td/></tr>'		
+			html +='<tr><td>등록일</td><td colspan="2">'+prettyDate+'</td></tr>'		
+			html +='<tr><td colspan="3">'+board.content+'<td/></tr>'		
+			html +='<tr><td>첨부파일</td><td colspan="2">'
 			if(file!=null){
 				html +='<a href="/torrent/download?path='+file.path+'&sName='+file.sysName+'&dName='+file.oriName+'">'+file.oriName+'</a>'
 				html +=	'('+file.size+'byte)'
@@ -124,24 +133,22 @@
 		  	html +='</td></tr>'		
 		  	html +='</table>'
 		  	
-		  	html +=	'<a href="board3update.html?'+$bno+'">수정</a>'
-		  	html +=	'<a href="javascript:deleteBoard();">삭제</a>'
-		  	html +=	'<a href="board3.html">목록</a>'
+// 		  	html +=	'<a href="board3update.html?'+$bno+'">수정</a>'
+		  	html +=	'<a class="btn btn-defualt" href="javascript:deleteBoard();">삭제</a>'
+		  	html +=	'<a class="btn btn-defualt" href="board3.html">목록</a>'
 			$('#board-detail-div').append(html);
 		console.log("자세히보기 만들자..")
 	}
 	
 	function deleteBoard(){
-		alert("정말 삭제할 것인가요?");
-		$.ajax({
-			url : "delete.json",//url이 맨 마지막만 바뀌면 그냥써두됨
-			data : {"bno":$bno},
-			dataType:"json"
-		}).done(function(){
-			self.location="/torrent/views/board/board3.html";
-		});//권장하는 형태
-		console.log("자세히보기 가져왔다?")
-		
+				$.ajax({
+					url : "delete.json",//url이 맨 마지막만 바뀌면 그냥써두됨
+					data : {"bno":$bno},
+					dataType:"json"
+				}).done(function(){
+					alert("삭제완료")
+					self.location="/torrent/views/board/board3.html";
+				});//권장하는 형태
 	}
 	
 	
@@ -158,13 +165,14 @@
 	
 	///////////////////////////////////////
 	function recommendCount(){
+		console.log("좋아요수 측정하러 들어왔다")
 			$.ajax({
 				url : "likeCount.json",//url이 맨 마지막만 바뀌면 그냥써두됨
 				data : {"bno":$bno},
 			}).done(showLikeCount);//권장하는 형태
 		}
 	function showLikeCount(result){
-		$("#LikeCount").attr("src",result);
+		$("#LikeCount").html(result);
 	}
 	function checkLike(){
 		$.ajax({
@@ -181,19 +189,24 @@
 			alert("로그인하세요")
 			return ;
 		} */
-		if($("#LikeBtn").attr("src")=="/torrent/resources/images/unlike.png"){
+		console.log("좋아요버튼누름")
+		console.log($("#likeBtn").attr("src"))
+		
+		if($("#likeBtn").attr("src")=="/torrent/resources/images/unlike.png"){
+			console.log("이미 누름")
 			$.ajax({
 				url : "insertLike.json",
 				data :{"bno":$bno},
 			}).done(showLikeCount);
-			$("#LikeBtn").attr("src","/torrent/resources/images/like.png");
+			$("#likeBtn").attr("src","/torrent/resources/images/like.png");
 		}
 		else{
+			console.log("좋아요 취소 누름")
 			$.ajax({
 				url : "deleteLike.json",
 				data :{"bno":$bno},
 			}).done(showLikeCount);
-			$("#LikeBtn").attr("src","/torrent/resources/images/unlike.png");
+			$("#likeBtn").attr("src","/torrent/resources/images/unlike.png");
 		}
 	}
 		//ajax를 이용해서 댓글목록을 조회
@@ -218,7 +231,7 @@
 			console.log(result)
 			
 			var html = "";
-			html += "<table width='80%' border='1'>"
+			html += "<table>"
 			for(var i = 0; i<result.length; i++){
 				var comment = result[i];
 				html += "<tr id='row"+comment.rno+"'>";
@@ -326,11 +339,6 @@
 		//페이지가 로딩되면...
 		commentList();
 		recommendCount();
-
-	
-	
-	
-	
 	
 	</script>
 	</body>

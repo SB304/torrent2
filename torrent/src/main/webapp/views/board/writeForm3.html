@@ -32,6 +32,10 @@
 		<script src="/torrent/resources/js/main.js"></script>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
    		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+ 
+   		<script src="/torrent/resources/sweet/sweetalert.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="/torrent/resources/sweet/sweetalert.css"/>
+   		
    		
 	  <!-- Font Awesome -->
 	  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
@@ -187,7 +191,7 @@
 				processData: false,	//name = value 처리안하겠다
 				contentType: false, //마찬가지...멀티파트로받아서..?
 				success : function(result){
-					alert("FormDate객체를 이용한 파일 업로드");
+					alert("게시글 작성이 완료되었습니다!")
 					location.href="board3.html";
 				},
 	            error : function(error) {

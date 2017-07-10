@@ -17,6 +17,7 @@ public interface BoardService3 {
 	public void insert(BoardVO board, FileVO file) throws Exception;
 	public Map<String, Object> select(PageVO page) throws Exception; 
 	public Map<String, Object> detail(int no) throws Exception;
+	public void viewCntUP(int bno) throws Exception;
 	/////////댓글 서비스//////////////////////
 	public void deleteComment(int no) throws Exception;
 	public void updateComment(ReplyVO comment) throws Exception;

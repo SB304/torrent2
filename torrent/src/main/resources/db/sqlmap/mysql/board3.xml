@@ -21,25 +21,27 @@
 		 where bno = #{bno}    	    
 	</update>
 	
+	<update id="viewCntUp" parameterType="int">
+		update tbl_board 
+		   set viewCnt = viewCnt+1
+		 where bno = #{bno}    	    
+	</update>
+	
 	<delete id="deleteBoard" parameterType="int">
 	    delete
 	      from tbl_board
 	     where bno = #{bno} 
+	     order by bno desc
+	 	  limit  ${begin-1}, 10
 	</delete>
 	
-<!-- 	<select id="selectBoard" parameterType="pageVO" resultType="boardVO">
+	<select id="selectBoard" parameterType="pageVO" resultType="boardVO">
     	select *
-    	  from ( select rownum as rnum, aa.*
-    	           from (select *  
-    	                   from tbl_board 
-    	                   order by no desc 
-    	                ) as aa 
-    	       ) as bb 
-    	 where genre = #{genre} and rownum between #{begin} and #{end}
-    			
-    </select>  -->
-	
-	
+    	  from tbl_board
+	 	  where genre = ${genre}
+	 	  order by bno desc
+	 	  limit  ${begin-1}, 10
+    </select>
 	<!-- <select id="selectBoard" parameterType="int" resultType ="boardVO">
 	    select *         
 		  from tbl_board 

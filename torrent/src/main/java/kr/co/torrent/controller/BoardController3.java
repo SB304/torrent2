@@ -79,6 +79,7 @@ public class BoardController3 {
 	public Map<String,Object> detail(int bno) throws Exception {
 		System.out.println(bno);
 		Map<String,Object> result = boardService3.detail(bno);
+		boardService3.viewCntUP(bno);
 		return result;
 	}
 
@@ -218,7 +219,9 @@ public class BoardController3 {
 
 	////////////추천수 처리///////////////////////
 	@RequestMapping("/checkLike.json")
-	public String checkRecommendAjax(LikeVO recommend) throws Exception {
+	public String checkRecommendAjax(LikeVO recommend, HttpSession session) throws Exception {
+		String id = (String)session.getAttribute("user");
+		recommend.setId(id);
 		LikeVO check = boardService3.checkRecommend(recommend);
 		String result = "/torrent/resources/images/unlike.png";
 		if (check != null) {
@@ -228,17 +231,21 @@ public class BoardController3 {
 		return result;
 	}
 	@RequestMapping("/likeCount.json")
-	public int recommendCountAjax(int boardNo) throws Exception {
-		return boardService3.countRecommend(boardNo);
+	public int recommendCountAjax(int bno) throws Exception {
+		return boardService3.countRecommend(bno);
 	}
 	@RequestMapping("/deleteLike.json")
-	public int deleteRecommendAjax(LikeVO recommend) throws Exception {
+	public int deleteRecommendAjax(LikeVO recommend , HttpSession session) throws Exception {
+		String id = (String)session.getAttribute("user");
+		recommend.setId(id);
 		boardService3.deleteRecommend(recommend);
 		return boardService3.countRecommend(recommend.getBno());
 
 	}
 	@RequestMapping("/insertLike.json")
-	public int insertRecommendAjax(LikeVO recommend) throws Exception {
+	public int insertRecommendAjax(LikeVO recommend,HttpSession session) throws Exception {
+		String id = (String)session.getAttribute("user");
+		recommend.setId(id);
 		boardService3.insertRecommend(recommend);
 		return boardService3.countRecommend(recommend.getBno()); 
 	}
