@@ -17,6 +17,8 @@ public interface BoardMapper1 {
 	public void insertFile(FileVO file);
 	public int updateBoard(BoardVO board);
 	public int selectBno();
+	public int selectCnt();
+	
 	
 	public LikeVO checkLike(LikeVO like);
 	public void insertLike(LikeVO like);

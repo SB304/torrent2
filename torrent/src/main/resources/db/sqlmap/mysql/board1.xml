@@ -34,6 +34,10 @@
 	<select id="selectBno" resultType="int">
 		select max(bno) from tbl_board
 	</select>
+
+	<select id="selectCnt" resultType="int">
+		select max(viewCnt) from tbl_board
+	</select>
 	
 	<update id="updateBoard" parameterType="boardVO">
 		update tbl_board 

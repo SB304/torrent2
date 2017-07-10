@@ -47,10 +47,12 @@ public class BoardServiceImpl implements BoardService{
 	public Map<String, Object> detail(int bno) {
 		BoardVO  board = mapper.selectBoardByNo(bno);
 		FileVO file = mapper.selectFileByNo(bno);
+		int cnt = mapper.selectCnt();
 		
 		Map<String, Object> result = new HashMap<>();
 		result.put("board", board);
 		result.put("file", file);
+		result.put("cnt", cnt);
 		return result;
 	}
 	
@@ -100,6 +102,7 @@ public class BoardServiceImpl implements BoardService{
 			file.setBno(bno);
 			mapper.insertFile(file);
 		}
+		System.out.println("커밋 완료");
 		
 	}
 
